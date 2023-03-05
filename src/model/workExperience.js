@@ -1,8 +1,11 @@
 const pool = require('../config/db');
 
 const selectWorkerExperiences = (id_worker) => {
-        pool.query(`SELECT * FROM work_experiences WHERE id_worker='${id_worker}'`);
+    return new Promise((resolve, reject) =>
+        pool.query(`SELECT * FROM work_experiences WHERE id_worker='${id_worker}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
 }
+
 
 const selectWorkExperience = (id) => {
     return new Promise((resolve, reject) =>
@@ -11,7 +14,7 @@ const selectWorkExperience = (id) => {
 }
 
 const insertWorkExperience = (data) => {
-    const { id, id_worker, jobdesk, company_name, date_start, date_end, 
+    const { id, id_worker, jobdesk, company_name, date_start, date_end,
         description } = data;
     return pool.query(`INSERT INTO work_experiences VALUES('${id}', '${id_worker}', 
         '${jobdesk}', '${company_name}', '${date_start}', '${date_end}', 
@@ -19,7 +22,7 @@ const insertWorkExperience = (data) => {
 }
 
 const updateWorkExperience = (data) => {
-    const { id, id_worker, jobdesk, company_name, date_start, date_end, 
+    const { id, id_worker, jobdesk, company_name, date_start, date_end,
         description } = data;
     return pool.query(`UPDATE work_experiences SET jobdesk='${jobdesk}', 
         company_name='${company_name}', date_start='${date_start}', 

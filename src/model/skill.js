@@ -5,19 +5,21 @@ const selectSkillName = (name) => {
 }
 
 const selectWorkerSkills = (id_worker) => {
+    return new Promise((resolve, reject) =>
         pool.query(`SELECT worker_skills.id_worker, skills.name FROM worker_skills 
             INNER JOIN skills ON skills.id = worker_skills.id_skill 
-            WHERE id_worker='${id_worker}'`);
+            WHERE id_worker='${id_worker}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
 const insertSkill = (data) => {
     const { id, name } = data;
-        pool.query(`INSERT INTO skills VALUES('${id}', '${name}')`);
+    pool.query(`INSERT INTO skills VALUES('${id}', '${name}')`);
 }
 
 const insertWorkerSkill = (data) => {
     const { id, id_worker, id_skill } = data;
-        pool.query(`INSERT INTO worker_skills VALUES('${id}', '${id_worker}', '${id_skill}')`);
+    pool.query(`INSERT INTO worker_skills VALUES('${id}', '${id_worker}', '${id_skill}')`);
 }
 
 const deleteWorkerSkill = (id) => {
