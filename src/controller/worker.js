@@ -1,6 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const commonHelper = require('../helper/common');
+const authHelper = require('../helper/auth');
 
 const workerModel = require("../model/worker");
 const skillModel = require("../model/skill");
@@ -17,7 +19,6 @@ const registerWorker = async (req, res) => {
 
         //Insert worker to database
         data.id = uuidv4();
-        data.role = "worker";
         const salt = bcrypt.genSaltSync(10);
         data.password = bcrypt.hashSync(data.password, salt);
         const result = await workerModel.insertWorker(data);
@@ -25,8 +26,8 @@ const registerWorker = async (req, res) => {
         //Response
         commonHelper.response(res, result.rows, 201, "Register worker successful");
     } catch (error) {
+        console.log(error);
         commonHelper.response(res, null, 500, "Failed registering worker");
-        console.log(error)
     }
 }
 
@@ -41,12 +42,13 @@ const loginWorker = async (req, res) => {
 
         //Compare password in database
         const isValidPassword = bcrypt.compareSync(data.password, worker.password);
-        if (!isValidPassword) return res.json({ Message: "Password is invalid" });
+        if (!isValidPassword) return commonHelper.response(res, null, 403, "Wrong password");
 
         //Json Web Token Payload
         const payload = {
+            id: worker.id,
             email: worker.email,
-            role: worker.role
+            role: "worker"
         };
         worker.token = authHelper.generateToken(payload);
         worker.refreshToken = authHelper.generateRefreshToken(payload);
@@ -66,12 +68,13 @@ const refreshToken = async (req, res) => {
         const data = req.body.refreshToken;
 
         //Verify refresh token
-        const decoded = jwt.verify(data, process.env.SECRETKEY_JWT);
+        const decoded = jwt.verify(data, process.env.SECRET_KEY_JWT);
 
         //Token payload
         let payload = {
+            id: decoded.id,
             email: decoded.email,
-            role: decoded.role,
+            role: decoded.role
         };
 
         //New refreshed token
@@ -83,6 +86,7 @@ const refreshToken = async (req, res) => {
         //Response
         commonHelper.response(res, result, 200);
     } catch (error) {
+        console.log(error);
         if (error.name == "JsonWebTokenError") {
             return commonHelper.response(res, null, 401, "Token invalid");
         } else if (error.name == "TokenExpiredError") {
@@ -96,10 +100,10 @@ const refreshToken = async (req, res) => {
 const getAllWorkers = async (req, res) => {
     try {
         //Search and pagination query
-        const filter = req.query.search || 'name';
+        const filter = req.query.filter || 'name';
         const searchQuery = req.query.search || '';
         const sortBy = req.query.sortBy || 'name';
-        const sort = req.query.sort || 'desc';
+        const sort = req.query.sort || 'asc';
         const limit = Number(req.query.limit) || 6;
         const page = Number(req.query.page) || 1;
         const offset = (page - 1) * limit;
@@ -113,14 +117,9 @@ const getAllWorkers = async (req, res) => {
             .response(res, null, 404, "Workers not found");
 
         //Pagination info
-        const { rows: [count] } = await workerModel.countData();
-        const totalData = Number(count.count);
+        const totalData = Number(results.rowCount);
         const totalPage = Math.ceil(totalData / limit);
         const pagination = { currentPage: page, limit, totalData, totalPage };
-
-        //Return if page params more than total page
-        if (page > totalPage) return commonHelper
-            .response(res, null, 404, "Page invalid", pagination);
 
         //Response
         commonHelper.response(res, results.rows, 200,
@@ -145,7 +144,7 @@ const getDetailWorker = async (req, res) => {
 
         //Get worker skills from database
         const resultSkills = await skillModel.selectWorkerSkills(id);
-        result.rows[0].skills = resultSkills.rows;
+        result.rows[0].skills = resultSkills.rows.map((skill) => skill.name);
 
         //Get worker work experiences from database
         const resultWorkExperiences = await workExperienceModel.selectWorkerExperiences(id);
@@ -164,18 +163,55 @@ const getDetailWorker = async (req, res) => {
 
 const updateWorker = async (req, res) => {
     try {
-        //Get request worker data and id
-        const data = req.body;
+        //Get request worker id
         const id = req.params.id;
-        const { rowCount } = await modelSellers.findId(id);
-        if (!rowCount) return res.json({ Message: "Seller not found" });
+        const newData = req.body;
 
-        data.id = id;
-        const result = await modelSellers.updateSeller(data);
-        commonHelper.response(res, result.rows, 201, "Seller updated");
+        //Get previous worker data
+        const oldDataResult = await workerModel.selectWorker(id);
+        let oldData = oldDataResult.rows[0];
+
+        //Return if worker is not found
+        if (!oldDataResult.rowCount) return commonHelper.response(res, null, 404, "Worker not found");
+        data = { ...oldData, ...newData }
+
+        //Update password
+        if (newData.password) {
+            const salt = bcrypt.genSaltSync(10);
+            data.password = bcrypt.hashSync(newData.password, salt);
+        } else {
+            data.password = oldData.password;
+        }
+
+        //Update worker profile picture
+        if (req.file) {
+            const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
+            const PORT = process.env.PORT || 4000;
+            data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+        } else {
+            data.image = oldData.image;
+        }
+
+        console.log(data)
+        const result2 = await workerModel.updateWorker(data);
+        commonHelper.response(res, result2.rows, 201, "Worker updated");
     } catch (error) {
         console.log(error);
         commonHelper.response(res, null, 500, "Failed updating worker");
+    }
+}
+
+const deleteWorker = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { rowCount } = await workerModel.selectWorker(id);
+        if (!rowCount) return commonHelper.response(res, null, 404, "Worker not found");
+
+        const result = workerModel.deleteWorker(id);
+        commonHelper.response(res, result.rows, 200, "Worker deleted");
+    } catch (error) {
+        console.log(error);
+        commonHelper.response(res, null, 500, "Failed deleting worker");
     }
 }
 

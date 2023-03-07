@@ -1,12 +1,14 @@
 const pool = require('../config/db');
 
 const selectSkillName = (name) => {
-    pool.query(`SELECT * FROM skills where name='${name}'`);
+    return new Promise((resolve, reject) =>
+    pool.query(`SELECT * FROM skills where name='${name}'`,
+    (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
 const selectWorkerSkills = (id_worker) => {
     return new Promise((resolve, reject) =>
-        pool.query(`SELECT worker_skills.id_worker, skills.name FROM worker_skills 
+        pool.query(`SELECT skills.name FROM worker_skills 
             INNER JOIN skills ON skills.id = worker_skills.id_skill 
             WHERE id_worker='${id_worker}'`,
             (error, result) => (!error) ? resolve(result) : reject(error)));

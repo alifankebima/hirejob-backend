@@ -1,1 +1,0 @@
-This file is intended so that upload folder can be uploaded to GitHub

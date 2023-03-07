@@ -35,10 +35,13 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
     const messageError = err.message || "Internal server error";
     const statusCode = err.status || 500;
-  
-    res.status(statusCode).json({
-      message : messageError
-    })
+    
+    //Fix multer file too large message to a proper one
+    if(messageError == "File too large"){
+        commonHelper.response(res, null, 413, "File too large (Max. 2MB)");
+    } else {
+        commonHelper.response(res, null, statusCode, messageError);
+    }
 })
 
 // Listening port awaiting requests

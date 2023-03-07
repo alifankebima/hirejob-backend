@@ -2,7 +2,7 @@ const pool = require('../config/db');
 
 const selectAllWorkers = (filter, searchQuery, sortBy, sort, limit, offset) => {
     return pool.query(`SELECT * FROM workers
-        WHERE ${filter} ILIKE '%${searchQuery}%' GROUP BY workers.id 
+        WHERE ${filter} ILIKE '%${searchQuery}%' 
         ORDER BY ${sortBy} ${sort} LIMIT ${limit} OFFSET ${offset}`);
 }
 

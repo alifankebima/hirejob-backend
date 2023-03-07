@@ -39,11 +39,18 @@ const countData = () => {
             (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
+const findEmail = (email) => {
+    return new Promise((resolve, reject) =>
+        pool.query(`SELECT * FROM recruiters WHERE email='${email}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
+}
+
 module.exports = {
     selectAllRecruiters,
     selectRecruiter,
     insertRecruiter,
     updateRecruiter,
     deleteRecruiter,
-    countData
+    countData,
+    findEmail
 }
