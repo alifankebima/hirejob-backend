@@ -1,11 +1,13 @@
 const pool = require('../config/db');
 
 const selectAllHires = () => {
-        pool.query(`SELECT * FROM hire`);
+    return pool.query(`SELECT * FROM hire`);
 }
 
 const selectWorkerHires = (id_worker) => {
-    pool.query(`SELECT * FROM hire WHERE id_worker='${id_worker}'`);
+    return new Promise((resolve, reject) =>
+        pool.query(`SELECT * FROM hire WHERE id_worker='${id_worker}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
 const selectHire = (id) => {
