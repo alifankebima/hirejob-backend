@@ -24,7 +24,8 @@ const insertHire = (data) => {
         '${description}', '${read_status}', , '${created_at}', '${updated_at}')`);
 }
 
-const updateHireReadStatus = (id, read_status) => {
+const updateHireReadStatus = (data) => {
+    const { id, read_status } = data;
     return pool.query(`UPDATE hire SET read_status=${read_status} WHERE id='${id}')`);
 }
 

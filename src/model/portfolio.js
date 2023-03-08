@@ -1,7 +1,11 @@
 const pool = require('../config/db');
 
+const selectAllPortfolios = () => {
+    return pool.query(`SELECT * FROM portfolios'`);
+}
+
 const selectWorkerPortfolios = (id_worker) => {
-        pool.query(`SELECT * FROM portfolios WHERE id_worker='${id_worker}'`);
+    return pool.query(`SELECT * FROM portfolios WHERE id_worker='${id_worker}'`);
 }
 
 const selectPortfolio = (id) => {
@@ -34,6 +38,7 @@ const countData = () => {
 }
 
 module.exports = {
+    selectAllPortfolios,
     selectWorkerPortfolios,
     selectPortfolio,
     insertPortfolio,

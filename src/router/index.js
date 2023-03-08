@@ -1,14 +1,12 @@
-// Import express and router
 const express = require("express");
 const router = express.Router();
 
-// Import route
 const workerRouter = require("./worker");
 const recruiterRouter = require("./recruiter");
+const skillController = require("./skill");
 
-// Use route
 router.use("/v1/worker", workerRouter);
 router.use("/v1/recruiter", recruiterRouter);
+router.use("/v1/skill", skillController);
 
-// Export router
 module.exports = router;

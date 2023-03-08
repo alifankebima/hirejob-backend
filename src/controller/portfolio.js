@@ -1,118 +1,165 @@
 const { v4: uuidv4 } = require('uuid');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const commonHelper = require('../helper/common');
 
-const skillModel = require("../model/workExperience");
+const portfolioModel = require("../model/portfolio");
+const workerModel = require("../model/worker");
 
-
-const getWorkerWorkExperiences = async (req, res) => {
+const getAllPortfolios = async (req, res) => {
     try {
-        //Get request worker id
-        const id = req.params.id;
+        //Get all portfolios from database
+        const results = await portfolioModel.selectAllPortfolios();
 
-        //Get all workers from database
-        const results = await skillModel.selectWorkerSkills(id);
-        
-        //Return not found if there's no worker skills in database
+        //Return not found if there's no portfolios in database
         if (!results.rowCount) return commonHelper
-            .response(res, null, 404, "Skills not found");
+            .response(res, null, 404, "Portfolios not found");
 
         //Response
         commonHelper.response(res, results.rows, 200,
-            "Get all worker skills successful", pagination);
+            "Get all portfolios successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed getting worker skills");
+        commonHelper.response(res, null, 500, "Failed getting portfolios");
     }
 }
 
-// const getDetailSkill = async (req, res) => {
-//     try {
-//         //Get request worker id
-//         const id = req.params.id;
-
-//         //Get worker by id from database
-//         const result = await workerModel.selectWorker(id);
-
-//         //Return not found if there's no worker in database
-//         if (!result.rowCount) return commonHelper
-//             .response(res, null, 404, "Worker not found");
-
-//         //Get worker skills from database
-//         const resultSkills = await skillModel.selectWorkerSkills(id);
-//         result.rows[0].skills = resultSkills.rows;
-
-//         //Get worker work experiences from database
-//         const resultWorkExperiences = await workExperienceModel.selectWorkerExperiences(id);
-//         result.rows[0].workExperience = resultWorkExperiences.rows;
-
-//         //Response
-//         //Both skills and work experiences will return empty array
-//         //If there's no skills or work experiences in database
-//         commonHelper.response(res, result.rows, 200,
-//             "Get detail worker successful");
-//     } catch (error) {
-//         console.log(error);
-//         commonHelper.response(res, null, 500, "Failed getting detail worker");
-//     }
-// }
-
-const createSkill = async (req, res) => {
+const getWorkerPortfolios = async (req, res) => {
     try {
         //Get request worker id
-        const id_worker = req.payload.id;
+        const id_worker = req.params.id;
 
-        //Insert recipe to database
-        data.id = uuidv4();
-        data.id_user = req.payload.id;
-        data.created_at = Date.now();
-        data.updated_at = Date.now();
-        const result = await recipeModel.insertRecipe(data);
-        
+        //Get worker portfolios from database
+        const results = await portfolioModel.selectWorkerPortfolios(id_worker);
+
+        //Return not found if there's no portfolios in database
+        if (!results.rowCount) return commonHelper
+            .response(res, null, 404, "Worker portfolios not found");
+
+        //Response
+        commonHelper.response(res, results.rows, 200,
+            "Get all portfolios successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed adding worker skill");
+        commonHelper.response(res, null, 500, "Failed getting portfolios");
     }
 }
 
-const updateSkill = async (req, res) => {
+const getDetailPortfolio = async (req, res) => {
     try {
-        //Get request worker data and id
+        //Get request portfolio id
+        const id = req.params.id;
+
+        //Get portfolio by id from database
+        const result = await portfolioModel.selectPortfolio(id);
+
+        //Return not found if there's no portfolio in database
+        if (!result.rowCount) return commonHelper
+            .response(res, null, 404, "Portfolio not found");
+
+        //Response
+        commonHelper.response(res, result.rows, 200,
+            "Get detail portfolio successful");
+    } catch (error) {
+        console.log(error);
+        commonHelper.response(res, null, 500, "Failed getting detail portfolio");
+    }
+}
+
+const createPortfolio = async (req, res) => {
+    try {
+        //Get request worker id and portfolio data
+        const id_worker = req.payload.id_worker;
         const data = req.body;
-        const id = req.params.id;
-        const { rowCount } = await workerModel.selectWorker(id);
-        if (!rowCount) return commonHelper.response(res, null, 404, "Worker not found");
 
-        data.id = id;
-        const result = await workerModel.updateWorker(id);
-        commonHelper.response(res, result.rows, 201, "Worker updated");
+        //Check if image is uploaded
+        if (req.file == undefined) return commonHelper
+            .response(res, null, 400, "Please input image");
+
+        //Portfolio metadata
+        data.id = uuidv4();
+        data.id_worker = id_worker;
+        const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
+        const PORT = process.env.PORT || 4000;
+        data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+
+        //Insert portfolio to database
+        const result = await portfolioModel.insertPortfolio(data);
+    
+        //Response
+        commonHelper.response(res, result.rows, 200,
+            "Create portfolio successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed updating worker");
+        commonHelper.response(res, null, 500, "Failed creating portfolio");
     }
 }
 
-const deleteSkill = async (req, res) => {
+const updatePortfolio = async (req, res) => {
     try {
+        //Get request worker id and portfolio data
         const id = req.params.id;
-        const { rowCount } = await workerModel.selectWorker(id);
-        if (!rowCount) return commonHelper.response(res, null, 404, "Worker not found");
-  
-        const result = workerModel.deleteWorker(id);
-        commonHelper.response(res, result.rows, 200, "Worker deleted");
-      } catch (error) {
+        const id_worker = req.payload.id_worker;
+        const newData = req.body;
+
+        //Get previous portfolio
+        const oldDataResult = await workerModel.selectPortfolio(id);
+        if (!oldDataResult.rowCount) return commonHelper
+            .response(res, null, 404, "Portfolio not found");
+        let oldData = oldDataResult.rows[0];
+        data = { ...oldData, ...newData }
+
+        //Check if image is uploaded
+        if (req.file == undefined) return commonHelper
+            .response(res, null, 400, "Please input image");
+
+        //Portfolio metadata
+        data.id = id;
+        data.id_worker = id_worker;
+        if (req.file) {
+            const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
+            const PORT = process.env.PORT || 4000;
+            data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+        } else {
+            data.image = oldData.image;
+        }
+
+        //Insert update to database
+        const result = await portfolioModel.updatePortfolio(data);
+    
+        //Response
+        commonHelper.response(res, result.rows, 200,
+            "Update portfolio successful");
+    } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed updating worker");
-      }
+        commonHelper.response(res, null, 500, "Failed updating portfolio");
+    }
+}
+
+const deletePortfolio = async (req, res) => {
+    try {
+        //Get request portfolio id
+        const id = req.params.id;
+
+        //Check if portfolio exists in database
+        const { rowCount } = await portfolioModel.selectPortfolio(id);
+        if (!rowCount) return commonHelper
+            .response(res, null, 404, "Portfolio not found");
+
+        //Delete portfolio from database
+        const result = portfolioModel.deletePortfolio(id);
+
+        //Response
+        commonHelper.response(res, result.rows, 200, "Portfolio deleted");
+    } catch (error) {
+        console.log(error);
+        commonHelper.response(res, null, 500, "Failed deleting portfolio");
+    }
 }
 
 module.exports = {
-    registerWorker,
-    loginWorker,
-    refreshToken,
-    getAllWorkers,
-    getDetailWorker,
-    updateWorker,
-    deleteWorker
+    getAllPortfolios,
+    getWorkerPortfolios,
+    getDetailPortfolio,
+    createPortfolio,
+    updatePortfolio,
+    deletePortfolio
 }

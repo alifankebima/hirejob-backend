@@ -1,11 +1,14 @@
 const pool = require('../config/db');
 
-const selectWorkerExperiences = (id_worker) => {
+const selectAllWorkExperiences = () => {
+    return pool.query(`SELECT * FROM work_experiences'`);
+}
+
+const selectWorkerWorkExperiences = (id_worker) => {
     return new Promise((resolve, reject) =>
         pool.query(`SELECT * FROM work_experiences WHERE id_worker='${id_worker}'`,
             (error, result) => (!error) ? resolve(result) : reject(error)));
 }
-
 
 const selectWorkExperience = (id) => {
     return new Promise((resolve, reject) =>
@@ -40,7 +43,8 @@ const countData = () => {
 }
 
 module.exports = {
-    selectWorkerExperiences,
+    selectAllWorkExperiences,
+    selectWorkerWorkExperiences,
     selectWorkExperience,
     insertWorkExperience,
     updateWorkExperience,

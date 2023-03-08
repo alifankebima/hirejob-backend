@@ -1,8 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const commonHelper = require('../helper/common');
-const authHelper = require('../helper/auth');
 
 const hireModel = require("../model/hire");
 const workerModel = require("../model/worker");
@@ -72,14 +69,9 @@ const createHire = async (req, res) => {
         //Get request worker id and recruiter id
         const id_worker = req.params.id_worker;
         const id_recruiter = req.payload.id;
-        const role = req.payload.role;
         const data = req.body;
 
-        //Check if current user logged in is recruiter
-        if(!role == "recruiter") return commonHelper
-            .response(res, null, 403, "Unauthorized, please login as recruiter");
-
-        //Check if worker id is actually a worker
+        //Check if worker exists
         const workerResult = await workerModel.selectWorker(id_worker);
         if (!workerResult.rowCount) return commonHelper
             .response(res, null, 403, "Worker id is not found");
@@ -108,12 +100,7 @@ const updateHire = async (req, res) => {
     try {
         //Get request hire id and user role
         const id = req.params.id;
-        const role = req.payload.role;
         const data = req.body;
-
-        //Check if current user logged in is recruiter
-        if(!role == "recruiter") return commonHelper
-            .response(res, null, 403, "Unauthorized, please login as recruiter");
 
         //Hire metadata
         data.id = id;
@@ -128,6 +115,26 @@ const updateHire = async (req, res) => {
     } catch (error) {
         console.log(error);
         commonHelper.response(res, null, 500, "Failed updating hire");
+    }
+}
+
+const updateHireReadStatus = async (req, res) => {
+    try {
+        //Get request hire id and hire data
+        const id = req.params.id;
+        const data = req.body;
+
+        //Hire metadata
+        data.id = id;
+
+        //Update hire in database
+        const result = await hireModel.updateHireReadStatus(data);
+
+        //Response
+        commonHelper.response(res, result.rows, 201, "Hire read status updated");
+    } catch (error) {
+        console.log(error);
+        commonHelper.response(res, null, 500, "Failed updating hire read status");
     }
 }
 
@@ -150,5 +157,6 @@ module.exports = {
     getWorkerHires,
     getDetailHire,
     updateHire,
+    updateHireReadStatus,
     deleteHire
 }

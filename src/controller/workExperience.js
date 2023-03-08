@@ -1,108 +1,159 @@
 const { v4: uuidv4 } = require('uuid');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const commonHelper = require('../helper/common');
 
-const workexperienceModel = require("../model/workExperience");
+const workExperienceModel = require("../model/workExperience");
+const workerModel = require("../model/worker");
 
-
-const getWorkerExperiences = async (req, res) => {
+const getAllWorkExperiences = async (req, res) => {
     try {
-        //Get request worker id
-        const id = req.params.id;
+        //Get all work experiences from database
+        const results = await workExperienceModel.selectWorkExperience();
 
-        //Get all workers from database
-        const results = await workexperienceModel.selectWorkerExperiences(id);
-        
-        //Return not found if there's no worker workexperiences in database
+        //Return not found if there's no work experiences in database
         if (!results.rowCount) return commonHelper
-            .response(res, null, 404, "WorkExperiences not found");
+            .response(res, null, 404, "Work experiences not found");
 
         //Response
         commonHelper.response(res, results.rows, 200,
-            "Get all worker workexperiences successful", pagination);
+            "Get all work experiences successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed getting worker workexperiences");
+        commonHelper.response(res, null, 500, "Failed getting work experiences");
     }
 }
 
-// const getDetailWorkExperience = async (req, res) => {
-//     try {
-//         //Get request worker id
-//         const id = req.params.id;
+const getWorkerWorkExperiences = async (req, res) => {
+    try {
+        //Get request worker id
+        const id_worker = req.params.id_worker;
 
-//         //Get worker by id from database
-//         const result = await workerModel.selectWorker(id);
+        //Get worker work experiences from database
+        const results = await workExperienceModel.selectWorkerWorkExperiences(id_worker);
 
-//         //Return not found if there's no worker in database
-//         if (!result.rowCount) return commonHelper
-//             .response(res, null, 404, "Worker not found");
+        //Return not found if there's no worker's work experiences in database
+        if (!results.rowCount) return commonHelper
+            .response(res, null, 404, "Worker's work experiences not found");
 
-//         //Get worker workexperiences from database
-//         const resultWorkExperiences = await workexperienceModel.selectWorkerWorkExperiences(id);
-//         result.rows[0].workexperiences = resultWorkExperiences.rows;
+        //Response
+        commonHelper.response(res, results.rows, 200,
+            "Get worker's work experiences successful");
+    } catch (error) {
+        console.log(error);
+        commonHelper.response(res, null, 500, "Failed getting work experiences");
+    }
+}
 
-//         //Get worker work experiences from database
-//         const resultWorkExperiences = await workExperienceModel.selectWorkerExperiences(id);
-//         result.rows[0].workExperience = resultWorkExperiences.rows;
+const getDetailWorkExperience = async (req, res) => {
+    try {
+        //Get request workexperience id
+        const id = req.params.id;
 
-//         //Response
-//         //Both workexperiences and work experiences will return empty array
-//         //If there's no workexperiences or work experiences in database
-//         commonHelper.response(res, result.rows, 200,
-//             "Get detail worker successful");
-//     } catch (error) {
-//         console.log(error);
-//         commonHelper.response(res, null, 500, "Failed getting detail worker");
-//     }
-// }
+        //Get workexperience by id from database
+        const result = await workExperienceModel.selectWorkExperience(id);
+
+        //Return not found if there's no workexperience in database
+        if (!result.rowCount) return commonHelper
+            .response(res, null, 404, "Work experience not found");
+
+        //Response
+        commonHelper.response(res, result.rows, 200,
+            "Get detail work experience successful");
+    } catch (error) {
+        console.log(error);
+        commonHelper.response(res, null, 500, "Failed getting detail work experience");
+    }
+}
 
 const createWorkExperience = async (req, res) => {
     try {
-        //Get request worker id
-        const id_worker = req.payload.id;
-        
+        //Get request worker id and work experience data
+        const id_worker = req.payload.id_worker;
+        const data = req.body;
+
+        //Work experience metadata
+        data.id = uuidv4();
+        data.id_worker = id_worker;
+        if (req.file) {
+            const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
+            const PORT = process.env.PORT || 4000;
+            data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+        }
+
+        //Insert work experience to database
+        const result = await workExperienceModel.insertWorkExperience(data);
+
+        //Response
+        commonHelper.response(res, result.rows, 200,
+            "Create work experience successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed adding worker workexperience");
+        commonHelper.response(res, null, 500, "Failed creating work experience");
     }
 }
 
 const updateWorkExperience = async (req, res) => {
     try {
-        //Get request worker data and id
-        const data = req.body;
+        //Get request worker id and work experience data
         const id = req.params.id;
-        const { rowCount } = await workerModel.selectWorker(id);
-        if (!rowCount) return commonHelper.response(res, null, 404, "Worker not found");
+        const id_worker = req.payload.id_worker;
+        const newData = req.body;
 
+        //Get previous work experience data
+        const oldDataResult = await workExperienceModel.selectWorkExperience(id);
+        if (!oldDataResult.rowCount) return commonHelper
+            .response(res, null, 404, "Work experience not found");
+        let oldData = oldDataResult.rows[0];
+        data = { ...oldData, ...newData }
+
+        //Work experience metadata
         data.id = id;
-        const result = await workerModel.updateWorker(id);
-        commonHelper.response(res, result.rows, 201, "Worker updated");
+        data.id_worker = id_worker;
+        if (req.file) {
+            const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
+            const PORT = process.env.PORT || 4000;
+            data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+        } else {
+            data.image = oldData.image;
+        }
+
+        //Insert update to database
+        const result = await workExperienceModel.updateWorkExperience(data);
+
+        //Response
+        commonHelper.response(res, result.rows, 200,
+            "Update work experience successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed updating worker");
+        commonHelper.response(res, null, 500, "Failed updating work experience");
     }
 }
 
 const deleteWorkExperience = async (req, res) => {
     try {
+        //Get request workexperience id
         const id = req.params.id;
-        const { rowCount } = await workerModel.selectWorker(id);
-        if (!rowCount) return commonHelper.response(res, null, 404, "Worker not found");
-  
-        const result = workerModel.deleteWorker(id);
-        commonHelper.response(res, result.rows, 200, "Worker deleted");
-      } catch (error) {
+
+        //Check if workexperience exists in database
+        const { rowCount } = await workExperienceModel.selectWorkExperience(id);
+        if (!rowCount) return commonHelper
+            .response(res, null, 404, "Work experience not found");
+
+        //Delete workexperience from database
+        const result = workExperienceModel.deleteWorkExperience(id);
+
+        //Response
+        commonHelper.response(res, result.rows, 200, "Work experience deleted");
+    } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed updating worker");
-      }
+        commonHelper.response(res, null, 500, "Failed deleting work experience");
+    }
 }
 
 module.exports = {
-    getAllWorkerExperience,
-    getDetailWorker,
+    getAllWorkExperiences,
+    getWorkerWorkExperiences,
+    getDetailWorkExperience,
+    createWorkExperience,
     updateWorkExperience,
     deleteWorkExperience
 }

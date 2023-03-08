@@ -6,6 +6,7 @@ const authHelper = require('../helper/auth');
 
 const workerModel = require("../model/worker");
 const skillModel = require("../model/skill");
+const portfolioModel = require("../model/portfolio");
 const workExperienceModel = require("../model/workExperience");
 
 const registerWorker = async (req, res) => {
@@ -57,8 +58,8 @@ const loginWorker = async (req, res) => {
         delete worker.password;
         commonHelper.response(res, worker, 200, "Login as worker is successful");
     } catch (error) {
-        commonHelper.response(res, null, 500, "Failed login as worker");
         console.log(error);
+        commonHelper.response(res, null, 500, "Failed login as worker");
     }
 }
 
@@ -133,7 +134,7 @@ const getAllWorkers = async (req, res) => {
 const getDetailWorker = async (req, res) => {
     try {
         //Get request worker id
-        const id = req.params.id;
+        const id = req.params.id_worker;
 
         //Get worker by id from database
         const result = await workerModel.selectWorker(id);
@@ -144,15 +145,17 @@ const getDetailWorker = async (req, res) => {
 
         //Get worker skills from database
         const resultSkills = await skillModel.selectWorkerSkills(id);
-        result.rows[0].skills = resultSkills.rows.map((skill) => skill.name);
+        result.rows[0].skill = resultSkills.rows.map((skill) => skill.name);
+
+        //Get portfolios from database
+        const resultPortfolios = await portfolioModel.selectWorkerPortfolios(id);
+        result.rows[0].portfolio = resultPortfolios.rows;
 
         //Get worker work experiences from database
         const resultWorkExperiences = await workExperienceModel.selectWorkerExperiences(id);
         result.rows[0].workExperience = resultWorkExperiences.rows;
 
         //Response
-        //Both skills and work experiences will return empty array
-        //If there's no skills or work experiences in database
         commonHelper.response(res, result.rows, 200,
             "Get detail worker successful");
     } catch (error) {
@@ -164,15 +167,13 @@ const getDetailWorker = async (req, res) => {
 const updateWorker = async (req, res) => {
     try {
         //Get request worker id
-        const id = req.params.id;
+        const id = req.params.id_worker;
         const newData = req.body;
 
         //Get previous worker data
         const oldDataResult = await workerModel.selectWorker(id);
-        let oldData = oldDataResult.rows[0];
-
-        //Return if worker is not found
         if (!oldDataResult.rowCount) return commonHelper.response(res, null, 404, "Worker not found");
+        let oldData = oldDataResult.rows[0];
         data = { ...oldData, ...newData }
 
         //Update password
@@ -192,9 +193,11 @@ const updateWorker = async (req, res) => {
             data.image = oldData.image;
         }
 
-        console.log(data)
-        const result2 = await workerModel.updateWorker(data);
-        commonHelper.response(res, result2.rows, 201, "Worker updated");
+        //Update worker in database
+        const result = await workerModel.updateWorker(data);
+
+        //Response
+        commonHelper.response(res, result.rows, 201, "Worker updated");
     } catch (error) {
         console.log(error);
         commonHelper.response(res, null, 500, "Failed updating worker");

@@ -1,9 +1,8 @@
 const pool = require('../config/db');
 
-const selectSkillName = (name) => {
-    return new Promise((resolve, reject) =>
-    pool.query(`SELECT * FROM skills where name='${name}'`,
-    (error, result) => (!error) ? resolve(result) : reject(error)));
+const selectAllSkills = () => {
+    return pool.query(`SELECT * FROM worker_skills 
+        INNER JOIN skills ON skills.id = worker_skills.id_skill`);
 }
 
 const selectWorkerSkills = (id_worker) => {
@@ -14,14 +13,28 @@ const selectWorkerSkills = (id_worker) => {
             (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
+const selectSkill = (id) => {
+    return new Promise((resolve, reject) =>
+        pool.query(`SELECT skills.name FROM worker_skills 
+            INNER JOIN skills ON skills.id = worker_skills.id_skill 
+            WHERE id='${id}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
+}
+
+const selectSkillName = (name) => {
+    return new Promise((resolve, reject) =>
+        pool.query(`SELECT * FROM skills where name='${name}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
+}
+
 const insertSkill = (data) => {
     const { id, name } = data;
-    pool.query(`INSERT INTO skills VALUES('${id}', '${name}')`);
+    return pool.query(`INSERT INTO skills VALUES('${id}', '${name}')`);
 }
 
 const insertWorkerSkill = (data) => {
     const { id, id_worker, id_skill } = data;
-    pool.query(`INSERT INTO worker_skills VALUES('${id}', '${id_worker}', '${id_skill}')`);
+    return pool.query(`INSERT INTO worker_skills VALUES('${id}', '${id_worker}', '${id_skill}')`);
 }
 
 const deleteWorkerSkill = (id) => {
@@ -35,8 +48,10 @@ const countWorkerSkills = () => {
 }
 
 module.exports = {
-    selectSkillName,
+    selectAllSkills,
     selectWorkerSkills,
+    selectSkillName,
+    selectSkill,
     insertSkill,
     insertWorkerSkill,
     deleteWorkerSkill,

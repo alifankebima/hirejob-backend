@@ -1,15 +1,11 @@
-// Import express and router
 const express = require("express");
 const router = express.Router();
 
-//Import controller functions
 const recruiterController = require("../controller/recruiter");
 const upload = require("../middleware/upload");
 
-// Import auth
 const authMiddleware = require("../middleware/auth");
 
-//Recruiter router
 router.get('/', recruiterController.getAllRecruiters);
 router.get('/:id', recruiterController.getDetailRecruiter);
 router.post("/register", recruiterController.registerRecruiter);
