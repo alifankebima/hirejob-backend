@@ -25,7 +25,7 @@ const getAllPortfolios = async (req, res) => {
 const getWorkerPortfolios = async (req, res) => {
     try {
         //Get request worker id
-        const id_worker = req.params.id;
+        const id_worker = req.params.id_worker;
 
         //Get worker portfolios from database
         const results = await portfolioModel.selectWorkerPortfolios(id_worker);
@@ -36,7 +36,7 @@ const getWorkerPortfolios = async (req, res) => {
 
         //Response
         commonHelper.response(res, results.rows, 200,
-            "Get all portfolios successful");
+            "Get worker portfolios successful");
     } catch (error) {
         console.log(error);
         commonHelper.response(res, null, 500, "Failed getting portfolios");
@@ -67,7 +67,7 @@ const getDetailPortfolio = async (req, res) => {
 const createPortfolio = async (req, res) => {
     try {
         //Get request worker id and portfolio data
-        const id_worker = req.payload.id_worker;
+        const id_worker = req.payload.id;
         const data = req.body;
 
         //Check if image is uploaded
@@ -101,15 +101,11 @@ const updatePortfolio = async (req, res) => {
         const newData = req.body;
 
         //Get previous portfolio
-        const oldDataResult = await workerModel.selectPortfolio(id);
+        const oldDataResult = await portfolioModel.selectPortfolio(id);
         if (!oldDataResult.rowCount) return commonHelper
             .response(res, null, 404, "Portfolio not found");
         let oldData = oldDataResult.rows[0];
         data = { ...oldData, ...newData }
-
-        //Check if image is uploaded
-        if (req.file == undefined) return commonHelper
-            .response(res, null, 400, "Please input image");
 
         //Portfolio metadata
         data.id = id;

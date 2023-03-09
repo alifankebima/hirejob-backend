@@ -1,0 +1,1235 @@
+{
+	"info": {
+		"_postman_id": "04b3bd72-0f5c-4d3c-94bc-16a1fb30ad16",
+		"name": "Hirejob",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Worker",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register worker",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Alif Anke Bima Putra\",\n    \"email\" : \"alif.worker@gmail.com\",\n    \"phone_number\" : \"085718516646\",\n    \"password\" : \"password123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/register",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login worker",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\" : \"alif.worker@gmail.com\",\n    \"password\" : \"password123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/login",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlhMTY3NmZjLWU1NzEtNDdmNS05OWRkLWJjNDg2NGQyZjFhMSIsImVtYWlsIjoiYWxpZi53b3JrZXJAZ21haWwuY29tIiwicm9sZSI6IndvcmtlciIsImlhdCI6MTY3ODMxMTAzNiwiZXhwIjoxNjc4Mzk3NDM2fQ.ydQJSPhfI320sIUpD1axKLzuY7-gcCVzge5TD3yGobs\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/refresh-token",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"refresh-token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Skill",
+					"item": [
+						{
+							"name": "Get all skills",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/skill",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"skill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get detail skill",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/skill/{{id_worker_skill}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"skill",
+										"{{id_worker_skill}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get worker skills",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/{{id_worker}}/skill",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"{{id_worker}}",
+										"skill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create skill",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\" : \"JavaScript\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/skill",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"skill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete skill",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/skill/{{id_worker_skill}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"skill",
+										"{{id_worker_skill}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Portfolio",
+					"item": [
+						{
+							"name": "Get all portfolios",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/portfolio",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"portfolio"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get detail portfolio",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/portfolio/{{id_portfolio}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"portfolio",
+										"{{id_portfolio}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get worker portfolios",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/{{id_worker}}/portfolio",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"{{id_worker}}",
+										"portfolio"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create portfolio",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "yt",
+											"type": "default"
+										},
+										{
+											"key": "repo_link",
+											"value": "youtube.com",
+											"type": "default"
+										},
+										{
+											"key": "portfolio_type",
+											"value": "Web",
+											"type": "default"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/home/alif/Dropbox/Pictures/Profile picture/325298687_628390289046640_906610024568446155_n.jpg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/portfolio",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"portfolio"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update portfolio",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "google update",
+											"type": "default"
+										},
+										{
+											"key": "repo_link",
+											"value": "google.com",
+											"type": "default"
+										},
+										{
+											"key": "portfolio_type",
+											"value": "Web",
+											"type": "default"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/home/alif/Unduhan/procreator-ux-design-studio-VzJjPuk53sk-unsplash(1).jpg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/portfolio/{{id_portfolio}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"portfolio",
+										"{{id_portfolio}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete portfolio",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/portfolio/{{id_portfolio}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"portfolio",
+										"{{id_portfolio}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Work experience",
+					"item": [
+						{
+							"name": "Get all work experiences",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/work-experience",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"work-experience"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get detail work experience",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/work-experience/{{id_work_experience}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"work-experience",
+										"{{id_work_experience}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Worker's Work Experiences",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/{{id_worker}}/work-experience",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"{{id_worker}}",
+										"work-experience"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create work experience",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"jobdesk\": \"Backend engineer\",\n    \"company_name\": \"PT Maju Mundur\",\n    \"date_start\": \"Juni 2023\",\n    \"date_end\": \"\",\n    \"description\": \"ini deskripsi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/work-experience",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"work-experience"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update work experience",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"jobdesk\": \"frontend dev baru\",\n    \"company_name\": \"PT Maju Mundur\",\n    \"date_start\": \"Juni 2023\",\n    \"date_end\": \"Juli 2023\",\n    \"description\": \"ini deskripsi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/work-experience/{{id_work_experience}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"work-experience",
+										"{{id_work_experience}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete work experience",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/work-experience/{{id_work_experience}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"work-experience",
+										"{{id_work_experience}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Hire",
+					"item": [
+						{
+							"name": "Get worker hire list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/{{id_worker}}/hire",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"{{id_worker}}",
+										"hire"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update read status",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"read_status\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/hire/read-status/{{id_hire}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"hire",
+										"read-status",
+										"{{id_hire}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete hire",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/hire/{{id_hire}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"hire",
+										"{{id_hire}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get all workers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/v1/worker?search=alif&filter=name&sortBy=name&sort=asc&page=1&limit=6",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"worker"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "alif"
+								},
+								{
+									"key": "filter",
+									"value": "name"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sort",
+									"value": "asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get detail worker",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/v1/worker/{{id_worker}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"worker",
+								"{{id_worker}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update worker",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Alif Anke Bima Putra",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "alif.worker@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "phone_number",
+									"value": "085718516646",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "default"
+								},
+								{
+									"key": "jobdesk",
+									"value": "Backend engineer",
+									"type": "default"
+								},
+								{
+									"key": "residence",
+									"value": "Jakarta",
+									"type": "default"
+								},
+								{
+									"key": "workplace",
+									"value": "Tambun",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "Ini adalah deskripsi",
+									"type": "default"
+								},
+								{
+									"key": "job_type",
+									"value": "Full-time",
+									"type": "default"
+								},
+								{
+									"key": "instagram",
+									"value": "breadsticks64",
+									"type": "default"
+								},
+								{
+									"key": "github",
+									"value": "breadsticks64",
+									"type": "default"
+								},
+								{
+									"key": "gitlab",
+									"value": "tidak ada",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/alif/Dropbox/Pictures/Pokemon/squirtleglasses.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/v1/worker/{{id_worker}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"worker",
+								"{{id_worker}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete worker",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/v1/worker/{{id_worker}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"worker",
+								"{{id_worker}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{worker_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Recruiter",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register Recruiter",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Alif Anke Bima Putra\",\n    \"email\" : \"alif.recruiter@gmail.com\",\n    \"company_name\" : \"PT Maju Mundur\",\n    \"jobdesk\" : \"HRD\",\n    \"phone_number\" : \"085718516646\",\n    \"password\" : \"password123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/recruiter/register",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"recruiter",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Recruiter",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\" : \"alif.recruiter@gmail.com\",\n    \"password\" : \"password123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/recruiter/login",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"recruiter",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh Token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQyMGFmMDUxLTU3ZjEtNDA2ZC1hMGYyLWU4ZmM2MmQ1ZDczMCIsImVtYWlsIjoiYWxpZi5yZWNydWl0ZXJAZ21haWwuY29tIiwicm9sZSI6InJlY3J1aXRlciIsImlhdCI6MTY3ODMyMDcyNiwiZXhwIjoxNjc4NDA3MTI2fQ.ZFhJnGtLjLXsGenZIDj2KgNYScI4zuHAYVqIdMmI-18\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/recruiter/refresh-token",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"recruiter",
+										"refresh-token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Hire",
+					"item": [
+						{
+							"name": "Get all hires",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/hire",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"hire"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get detail hire",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/v1/hire/{{id_hire}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"hire",
+										"{{id_hire}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Hire worker",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"reason\": \"Full-time\",\n    \"name\": \"Alif recruiter\",\n    \"email\": \"alif.recruiter@gmail.com\",\n    \"phone_number\": \"085718516646\",\n    \"description\": \"ini adalah deskripsi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/worker/{{id_worker}}/hire",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"worker",
+										"{{id_worker}}",
+										"hire"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update hire",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"reason\": \"Full-time\",\n    \"name\": \"Alif recruiter baru\",\n    \"email\": \"alif.recruiter@gmail.com\",\n    \"phone_number\": \"085718516646\",\n    \"description\": \"ini adalah deskripsi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/v1/hire/{{id_hire}}",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"v1",
+										"hire",
+										"{{id_hire}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get all recruiters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/v1/recruiter",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"recruiter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get detail recruiter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/v1/recruiter/{{id_recruiter}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"recruiter",
+								"{{id_recruiter}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update recruiter",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Alif rekruter",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "alif.anke.bima@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "company_name",
+									"value": "PT Lancar Jaya",
+									"type": "default"
+								},
+								{
+									"key": "jobdesk",
+									"value": "HRD",
+									"type": "default"
+								},
+								{
+									"key": "phone_number",
+									"value": "085712345678",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "company_field",
+									"value": "IT Consultant",
+									"type": "default"
+								},
+								{
+									"key": "workplace",
+									"value": "Bekasi",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "ini adalah deskripsi",
+									"type": "default"
+								},
+								{
+									"key": "instagram",
+									"value": "instagram",
+									"type": "default"
+								},
+								{
+									"key": "linkedin",
+									"value": "pt-lancar-jaya",
+									"type": "default"
+								},
+								{
+									"key": "banner_image",
+									"type": "file",
+									"src": []
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/v1/recruiter/{{id_recruiter}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"recruiter",
+								"{{id_recruiter}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete recruiter",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/v1/recruiter/{{id_recruiter}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"v1",
+								"recruiter",
+								"{{id_recruiter}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{recruiter_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "http://localhost:4000"
+		},
+		{
+			"key": "worker_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlhMTY3NmZjLWU1NzEtNDdmNS05OWRkLWJjNDg2NGQyZjFhMSIsImVtYWlsIjoiYWxpZi53b3JrZXJAZ21haWwuY29tIiwicm9sZSI6IndvcmtlciIsImlhdCI6MTY3ODMxMTAzNiwiZXhwIjoxNjc4MzE0NjM2LCJpc3MiOiJoaXJlam9iIn0.bYJEceVw263PrmkN_3a5ICulkhjzA385ZqpS68c4JO0"
+		},
+		{
+			"key": "id_worker",
+			"value": "37634fa0-aee1-4d9d-ad9d-0628492393b6"
+		},
+		{
+			"key": "id_worker_skill",
+			"value": "a27fbc48-5e46-4e9e-96b6-60ebc41da0a9\""
+		},
+		{
+			"key": "id_portfolio",
+			"value": "5679d311-d001-44b5-9b1a-d84e1f8b2bfd"
+		},
+		{
+			"key": "id_work_experience",
+			"value": "8c2cc4e3-ea22-44e4-8d31-f570e8c0454e"
+		},
+		{
+			"key": "recruiter_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmZWIwMTJlLWNmNWItNGQ0MC1hMDJjLTZhN2MyMzg2ZjIwNCIsImVtYWlsIjoiZW1haWxAbWFpbC5jb20iLCJyb2xlIjoicmVjcnVpdGVyIiwiaWF0IjoxNjc4MTk2ODExLCJleHAiOjE2NzgyMDA0MTEsImlzcyI6ImhpcmVqb2IifQ.NzDOEeWZoYRuO0p6GFWaXNkLSOoUi4h_Yc93lqxkDRs"
+		},
+		{
+			"key": "id_recruiter",
+			"value": "7feb012e-cf5b-4d40-a02c-6a7c2386f204"
+		},
+		{
+			"key": "id_hire",
+			"value": "8c3c70e2-f5fb-418f-868e-f91202e0556b"
+		}
+	]
+}

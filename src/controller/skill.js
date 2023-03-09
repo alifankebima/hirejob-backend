@@ -48,7 +48,7 @@ const getDetailSkill = async (req, res) => {
         const id = req.params.id;
 
         //Get skill by id from database
-        const result = await skillModel.selectSkill(id);
+        const result = await skillModel.selectWorkerSkill(id);
 
         //Return not found if there's no skill in database
         if (!result.rowCount) return commonHelper
@@ -68,49 +68,57 @@ const createSkill = async (req, res) => {
         //Get request worker id
         const id_worker = req.payload.id;
         const data = req.body;
-        const result = {};
+        let result;
 
         //Check if skill name exists in database
         const skillResult = await skillModel.selectSkillName(data.name);
-        
+
+        //Check if worker already input skill with same name
+        const workerSkillResult = await skillModel.selectWorkerSkillName(id_worker, data.name);
+        if (workerSkillResult.rowCount) return commonHelper.response(res, null, 403 ,
+            "User already have " + data.name + " skill");
+
         //if skill exists, use existing skill and add skill relation to worker
-        if(skillResult.rowCount){
+        if (skillResult.rowCount) {
             const insertSkill = {
                 id: uuidv4(),
                 id_worker: id_worker,
                 id_skill: skillResult.rows[0].id
             }
             result = await skillModel.insertWorkerSkill(insertSkill);
-        
-        //Otherwhise, add skill name and then add skill relation to worker
+
+            //Otherwhise, add skill name and then add skill relation to worker
         } else {
+            const id1 = uuidv4();
+            const id2 = uuidv4();
+
             const newSkill = {
-                id: uuidv4(),
+                id: id1,
                 name: data.name
             }
             const newSkillResult = await skillModel.insertSkill(newSkill);
 
             const insertSkill = {
-                id: uuidv4(),
+                id: id2,
                 id_worker: id_worker,
                 id_skill: newSkill.id
             }
             result = await skillModel.insertWorkerSkill(insertSkill);
         }
-    
+
         //Response
         commonHelper.response(res, result.rows, 200,
             "Create skill successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed creating detail skill");
+        commonHelper.response(res, null, 500, "Failed creating skill");
     }
 }
 
 const deleteSkill = async (req, res) => {
     try {
         const id = req.params.id;
-        const { rowCount } = await skillModel.selectSkill(id);
+        const { rowCount } = await skillModel.selectWorkerSkill(id);
         if (!rowCount) return commonHelper.response(res, null, 404, "Skill not found");
 
         const result = skillModel.deleteWorkerSkill(id);

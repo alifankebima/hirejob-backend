@@ -1,14 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
+const { protect, isWorker, } = require("../middleware/auth");
+
 const {
     getAllSkills,
-    getDetailSkill
+    getDetailSkill,
+    createSkill,
+    deleteSkill
 } = require("../controller/skill");
 
 //Skills router
-//api_router/v1/skill/...
 router.get('/', getAllSkills);
 router.get('/:id', getDetailSkill);
+router.post('/', protect, isWorker, createSkill);
+router.delete('/:id', protect, isWorker, deleteSkill);
 
 module.exports = router;

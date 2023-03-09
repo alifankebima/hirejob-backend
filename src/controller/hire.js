@@ -25,7 +25,8 @@ const getAllHires = async (req, res) => {
 const getWorkerHires = async (req, res) => {
     try {
         //Get request worker id
-        const id_worker = req.params.id_worker
+        const id_worker = req.params.id_worker;
+        console.log(id_worker);
 
         //Get worker hires from database
         const results = await hireModel.selectWorkerHires(id_worker);
@@ -89,10 +90,10 @@ const createHire = async (req, res) => {
     
         //Response
         commonHelper.response(res, result.rows, 200,
-            "Create hire successful");
+            "Hire worker successful");
     } catch (error) {
         console.log(error);
-        commonHelper.response(res, null, 500, "Failed creating detail hire");
+        commonHelper.response(res, null, 500, "Failed hiring worker");
     }
 }
 
@@ -123,7 +124,7 @@ const updateHireReadStatus = async (req, res) => {
         //Get request hire id and hire data
         const id = req.params.id;
         const data = req.body;
-
+        console.log("hello");
         //Hire metadata
         data.id = id;
 
@@ -131,7 +132,7 @@ const updateHireReadStatus = async (req, res) => {
         const result = await hireModel.updateHireReadStatus(data);
 
         //Response
-        commonHelper.response(res, result.rows, 201, "Hire read status updated");
+        commonHelper.response(res, result.rows, 201, "Hire read status set to "+ data.read_status);
     } catch (error) {
         console.log(error);
         commonHelper.response(res, null, 500, "Failed updating hire read status");
@@ -156,6 +157,7 @@ module.exports = {
     getAllHires,
     getWorkerHires,
     getDetailHire,
+    createHire,
     updateHire,
     updateHireReadStatus,
     deleteHire

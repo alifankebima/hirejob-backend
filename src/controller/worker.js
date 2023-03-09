@@ -145,14 +145,14 @@ const getDetailWorker = async (req, res) => {
 
         //Get worker skills from database
         const resultSkills = await skillModel.selectWorkerSkills(id);
-        result.rows[0].skill = resultSkills.rows.map((skill) => skill.name);
+        result.rows[0].skill = resultSkills.rows;
 
         //Get portfolios from database
         const resultPortfolios = await portfolioModel.selectWorkerPortfolios(id);
         result.rows[0].portfolio = resultPortfolios.rows;
 
         //Get worker work experiences from database
-        const resultWorkExperiences = await workExperienceModel.selectWorkerExperiences(id);
+        const resultWorkExperiences = await workExperienceModel.selectWorkerWorkExperiences(id);
         result.rows[0].workExperience = resultWorkExperiences.rows;
 
         //Response
@@ -206,7 +206,7 @@ const updateWorker = async (req, res) => {
 
 const deleteWorker = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.params.id_worker;
         const { rowCount } = await workerModel.selectWorker(id);
         if (!rowCount) return commonHelper.response(res, null, 404, "Worker not found");
 

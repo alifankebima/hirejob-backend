@@ -67,7 +67,7 @@ const getDetailWorkExperience = async (req, res) => {
 const createWorkExperience = async (req, res) => {
     try {
         //Get request worker id and work experience data
-        const id_worker = req.payload.id_worker;
+        const id_worker = req.payload.id;
         const data = req.body;
 
         //Work experience metadata

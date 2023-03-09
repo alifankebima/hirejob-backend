@@ -3,14 +3,12 @@ const express = require("express");
 const router = express.Router();
 
 const upload = require("../middleware/upload");
+const { protect, isIdValid, isWorker, isRecruiter } = require("../middleware/auth");
 
-const { 
-    protect, 
-    isIdValid, 
-    isWorker, 
-    isRecruiter 
-} = require("../middleware/auth");
-
+const { getWorkerSkills } = require("../controller/skill");
+const { getWorkerPortfolios } = require("../controller/portfolio");
+const { getWorkerWorkExperiences } = require("../controller/workExperience");
+const { getWorkerHires, createHire } = require("../controller/hire");
 const {
     getAllWorkers,
     getDetailWorker,
@@ -20,21 +18,6 @@ const {
     updateWorker,
     deleteWorker
 } = require("../controller/worker");
-
-const {
-    getWorkerSkills,
-    createSkill,
-    deleteSkill
-} = require("../controller/skill");
-
-const {
-    getWorkerPortfolio,
-    createPortfolio,
-    updatePortfolio,
-    deletePortfolio
-} = require("../controller/portfolio");
-
-//api_url/v1/worker/...
 
 //Worker authentication routes
 router.post("/register", registerWorker);
@@ -47,16 +30,13 @@ router.get('/:id_worker', getDetailWorker);
 router.put("/:id_worker", protect, isWorker, isIdValid, upload.single("image"), updateWorker);
 router.delete("/:id_worker", protect, isWorker, isIdValid, deleteWorker);
 
-//Skill routes
+//Additional worker routes
 router.get('/:id_worker/skill', getWorkerSkills);
-router.post('/skill', protect, isWorker, createSkill);
-router.delete('/skill/:id', protect, isWorker, deleteSkill);
-
-//Portfolio routes
-router.get('/:id_worker/portfolio', getWorkerPortfolio);
-router.post('/portfolio', protect, isWorker, createPortfolio);
-router.put('/portfolio/:id', protect, isWorker, updatePortfolio);
-router.delete('/portfolio/:id', protect, isWorker, deletePortfolio);
+router.get('/:id_worker/portfolio', getWorkerPortfolios);
+router.get('/:id_worker/work-experience', getWorkerWorkExperiences);
+router.get('/:id_worker/hire', protect, isWorker, getWorkerHires);
+//For recruiter
+router.post('/:id_worker/hire', protect, isRecruiter, createHire);
 
 //Export router to index.js at router folder
 module.exports = router;

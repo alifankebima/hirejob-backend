@@ -131,7 +131,7 @@ const getAllRecruiters = async (req, res) => {
 const getDetailRecruiter = async (req, res) => {
     try {
         //Get request recruiter id
-        const id = req.params.id;
+        const id = req.params.id_recruiter;
 
         //Get recruiter by id from database
         const result = await recruiterModel.selectRecruiter(id);
@@ -152,7 +152,7 @@ const getDetailRecruiter = async (req, res) => {
 const updateRecruiter = async (req, res) => {
     try {
         //Get request recruiter id
-        const id = req.params.id;
+        const id = req.params.id_recruiter;
         const newData = req.body;
 
         //Get previous recruiter data
@@ -198,7 +198,7 @@ const updateRecruiter = async (req, res) => {
 
 const deleteRecruiter = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.params.id_recruiter;
         const { rowCount } = await recruiterModel.selectRecruiter(id);
         if (!rowCount) return commonHelper.response(res, null, 404, "Recruiter not found");
 

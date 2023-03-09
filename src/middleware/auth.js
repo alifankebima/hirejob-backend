@@ -36,6 +36,8 @@ const protect = (req, res, next) => {
 const isIdValid = (req, res, next) => {
     const payload = req.payload;
     const queryId = req.params.id_recruiter || req.params.id_worker;
+    console.log(`payload id : ${payload}`);
+    console.log(`query id : ${queryId}`);
     if (payload) {
         if (payload.id == queryId) {
             next();

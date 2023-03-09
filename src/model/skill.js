@@ -7,17 +7,25 @@ const selectAllSkills = () => {
 
 const selectWorkerSkills = (id_worker) => {
     return new Promise((resolve, reject) =>
-        pool.query(`SELECT skills.name FROM worker_skills 
+        pool.query(`SELECT worker_skills.id, skills.name FROM worker_skills 
             INNER JOIN skills ON skills.id = worker_skills.id_skill 
-            WHERE id_worker='${id_worker}'`,
+            WHERE worker_skills.id_worker='${id_worker}'`,
             (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
-const selectSkill = (id) => {
+const selectWorkerSkill = (id) => {
     return new Promise((resolve, reject) =>
-        pool.query(`SELECT skills.name FROM worker_skills 
+        pool.query(`SELECT worker_skills.id, skills.name FROM worker_skills 
             INNER JOIN skills ON skills.id = worker_skills.id_skill 
-            WHERE id='${id}'`,
+            WHERE worker_skills.id='${id}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
+}
+
+const selectWorkerSkillName = (id_worker, name) => {
+    return new Promise((resolve, reject) =>
+        pool.query(`SELECT worker_skills.id, skills.name FROM worker_skills 
+            INNER JOIN skills ON skills.id = worker_skills.id_skill 
+            WHERE worker_skills.id_worker='${id_worker}' and skills.name='${name}'`,
             (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
@@ -51,7 +59,8 @@ module.exports = {
     selectAllSkills,
     selectWorkerSkills,
     selectSkillName,
-    selectSkill,
+    selectWorkerSkill,
+    selectWorkerSkillName,
     insertSkill,
     insertWorkerSkill,
     deleteWorkerSkill,

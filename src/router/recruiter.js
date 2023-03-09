@@ -1,23 +1,32 @@
 const express = require("express");
 const router = express.Router();
 
-const recruiterController = require("../controller/recruiter");
 const upload = require("../middleware/upload");
+const { protect, isIdValid, isRecruiter } = require("../middleware/auth");
 
-const authMiddleware = require("../middleware/auth");
+const {
+    getAllRecruiters,
+    getDetailRecruiter,
+    registerRecruiter,
+    loginRecruiter,
+    refreshToken,
+    updateRecruiter,
+    deleteRecruiter
+} = require("../controller/recruiter");
 
-router.get('/', recruiterController.getAllRecruiters);
-router.get('/:id', recruiterController.getDetailRecruiter);
-router.post("/register", recruiterController.registerRecruiter);
-router.post("/login", recruiterController.loginRecruiter);
-router.post("/refresh-token", recruiterController.refreshToken);
+//Recruiter authentication routes
+router.post("/register", registerRecruiter);
+router.post("/login", loginRecruiter);
+router.post("/refresh-token", refreshToken);
 
-//Require login
-router.put("/:id", authMiddleware.protect, authMiddleware.isIdValid, upload.fields([
+//Recruiter routes
+router.get('/', getAllRecruiters);
+router.get('/:id_recruiter', getDetailRecruiter);
+router.put("/:id_recruiter", protect, isIdValid, upload.fields([
     { name: "image", maxCount: 1 },
     { name: "banner_image", maxCount: 1 }
-]), recruiterController.updateRecruiter);
-router.delete("/:id", authMiddleware.protect, authMiddleware.isIdValid, recruiterController.deleteRecruiter);
+]), updateRecruiter);
+router.delete("/:id_recruiter", protect, isIdValid, deleteRecruiter);
 
 //Export router to index.js at router folder
 module.exports = router;

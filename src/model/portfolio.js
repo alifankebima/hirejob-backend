@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 const selectAllPortfolios = () => {
-    return pool.query(`SELECT * FROM portfolios'`);
+    return pool.query(`SELECT * FROM portfolios`);
 }
 
 const selectWorkerPortfolios = (id_worker) => {
@@ -24,7 +24,7 @@ const updatePortfolio = (data) => {
     const { id, id_worker, name, repo_link, portfolio_type, image } = data;
     return pool.query(`UPDATE portfolios SET name='${name}', 
         repo_link='${repo_link}', portfolio_type='${portfolio_type}', 
-        image='${image}', WHERE id='${id}'`);
+        image='${image}' WHERE id='${id}'`);
 }
 
 const deletePortfolio = (id) => {
