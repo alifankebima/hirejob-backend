@@ -34,7 +34,7 @@ router.delete("/:id_worker", protect, isWorker, isIdValid, deleteWorker);
 router.get('/:id_worker/skill', getWorkerSkills);
 router.get('/:id_worker/portfolio', getWorkerPortfolios);
 router.get('/:id_worker/work-experience', getWorkerWorkExperiences);
-router.get('/:id_worker/hire', protect, isWorker, getWorkerHires);
+router.get('/:id_worker/hire', getWorkerHires);
 //For recruiter
 router.post('/:id_worker/hire', protect, isRecruiter, createHire);
 
