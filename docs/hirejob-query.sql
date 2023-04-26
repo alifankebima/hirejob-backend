@@ -37,7 +37,7 @@ create table workers(
     email varchar(60) not null unique,
     phone_number varchar(16) not null,
     password varchar(128) not null,
-    image varchar default('worker.png'),
+    image varchar,
     jobdesk varchar(40),
     residence varchar(40),
     workplace varchar(40),
@@ -57,7 +57,7 @@ create table worker_skills(
     id varchar(36) not null primary key,
     id_worker varchar(36) references workers on update cascade on delete cascade,
     foreign key (id_worker) references workers(id),
-    id_skill varchar(36) references skills update cascade on delete cascade,
+    id_skill varchar(36) references skills on update cascade on delete cascade,
     foreign key (id_skill) references skills(id)
 );
 
@@ -80,7 +80,7 @@ create table work_experiences(
     date_start varchar not null,
     date_end varchar,
     description text not null,
-    image varchar default('company.png')
+    image varchar
 );
 
 create table recruiters(
@@ -91,13 +91,13 @@ create table recruiters(
     jobdesk varchar(40) not null,
     phone_number varchar(16) not null,
     password varchar(128) not null,
-    image varchar default('recruiter.png'),
+    image varchar,
     company_field varchar(40),
     workplace varchar(40),
     description text,
     instagram varchar(40),
     linkedin varchar(40),
-    banner_image varchar default('banner.png')
+    banner_image varchar
 );
 
 create table hire(

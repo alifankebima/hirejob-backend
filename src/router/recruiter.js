@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const upload = require("../middleware/upload");
-const { protect, isIdValid, isRecruiter } = require("../middleware/auth");
+const { protect, isIdValid } = require("../middleware/auth");
 
 const {
     getAllRecruiters,

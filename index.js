@@ -6,7 +6,6 @@ const mainRouter = require("./src/router/index"); // Import main router
 const express = require("express"); // Import express library
 const helmet = require("helmet"); // Import helmet
 const cors = require("cors"); // Import cors
-const createError = require("http-errors"); // Import http error
 const morgan = require("morgan"); // Import morgan
 const xss = require("xss-clean"); // Import xss
 const app = express(); // Import express
@@ -30,7 +29,7 @@ app.all("*", (req, res, next) => {
 });
 
 //Error code and message
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {  // eslint-disable-line
     const messageError = err.message || "Internal server error";
     const statusCode = err.status || 500;
     

@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 const selectAllWorkExperiences = () => {
-    return pool.query(`SELECT * FROM work_experiences'`);
+    return pool.query(`SELECT * FROM work_experiences`);
 }
 
 const selectWorkerWorkExperiences = (id_worker) => {
@@ -25,7 +25,7 @@ const insertWorkExperience = (data) => {
 }
 
 const updateWorkExperience = (data) => {
-    const { id, id_worker, jobdesk, company_name, date_start, date_end,
+    const { id, jobdesk, company_name, date_start, date_end,
         description } = data;
     return pool.query(`UPDATE work_experiences SET jobdesk='${jobdesk}', 
         company_name='${company_name}', date_start='${date_start}', 

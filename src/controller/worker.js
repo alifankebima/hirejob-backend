@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const commonHelper = require('../helper/common');
 const authHelper = require('../helper/auth');
-
+const googleDrive = require('../config/googleDrive');
 const workerModel = require("../model/worker");
 const skillModel = require("../model/skill");
 const portfolioModel = require("../model/portfolio");
@@ -174,7 +174,7 @@ const updateWorker = async (req, res) => {
         const oldDataResult = await workerModel.selectWorker(id);
         if (!oldDataResult.rowCount) return commonHelper.response(res, null, 404, "Worker not found");
         let oldData = oldDataResult.rows[0];
-        data = { ...oldData, ...newData }
+        let data = { ...oldData, ...newData }
 
         //Update password
         if (newData.password) {
@@ -184,11 +184,21 @@ const updateWorker = async (req, res) => {
             data.password = oldData.password;
         }
 
-        //Update worker profile picture
-        if (req.file) {
-            const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
-            const PORT = process.env.PORT || 4000;
-            data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+        // Update image if image already exists in database
+        if (req.file && oldData.image != null) {
+            const oldImage = oldData.image;
+            const oldImageId = oldImage.split("=")[1];
+            const updateResult = await googleDrive.updateImage(req.file, oldImageId)
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.image = parentPath.concat(updateResult.id)
+
+            // Upload image if image doesn't exists in database
+        } else if (req.file && oldData.image == null) {
+            const uploadResult = await googleDrive.uploadImage(req.file)
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.image = parentPath.concat(uploadResult.id)
+
+            // Use old image if user doesn't upload image
         } else {
             data.image = oldData.image;
         }
@@ -207,9 +217,15 @@ const updateWorker = async (req, res) => {
 const deleteWorker = async (req, res) => {
     try {
         const id = req.params.id_worker;
-        const { rowCount } = await workerModel.selectWorker(id);
-        if (!rowCount) return commonHelper.response(res, null, 404, "Worker not found");
+        const oldResult = await workerModel.selectWorker(id);
+        if (!oldResult.rowCount) return commonHelper.response(res, null, 404, "Worker not found");
 
+        const oldPhoto = oldResult.rows[0].image;
+        if(oldPhoto != null){
+            const oldPhotoId = oldPhoto.split("=")[1];
+            await googleDrive.deleteImage(oldPhotoId);
+        }
+        
         const result = workerModel.deleteWorker(id);
         commonHelper.response(res, result.rows, 200, "Worker deleted");
     } catch (error) {

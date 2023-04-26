@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const commonHelper = require('../helper/common');
 const authHelper = require('../helper/auth');
-
+const googleDrive = require('../config/googleDrive');
 const recruiterModel = require("../model/recruiter");
 
 const registerRecruiter = async (req, res) => {
@@ -161,7 +161,7 @@ const updateRecruiter = async (req, res) => {
 
         //Return if recruiter is not found
         if (!oldDataResult.rowCount) return commonHelper.response(res, null, 404, "Recruiter not found");
-        data = { ...oldData, ...newData }
+        let data = { ...oldData, ...newData }
 
         //Update password
         if (newData.password) {
@@ -171,21 +171,42 @@ const updateRecruiter = async (req, res) => {
             data.password = oldData.password;
         }
 
-        const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
-        const PORT = process.env.PORT || 4000;
-        
-        //Update recruiter profile picture
-        if (req.files.image) {
-            data.image = `http://${HOST}:${PORT}/img/${req.files.image[0].filename}`;
+        // Update image if image already exists in database
+        if (req.files.image[0] && oldData.image != null) {
+            const oldImage = oldData.image;
+            const oldImageId = oldImage.split("=")[1];
+            const updateResult = await googleDrive.updateImage(req.files.image[0], oldImageId)
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.image = parentPath.concat(updateResult.id)
+
+            // Upload image if image doesn't exists in database
+        } else if (req.files.image[0] && oldData.image == null) {
+            const uploadResult = await googleDrive.uploadImage(req.files.image[0])
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.image = parentPath.concat(uploadResult.id)
+
+            // Use old image if user doesn't upload image
         } else {
             data.image = oldData.image;
         }
 
-        //Update recruiter banner picture
-        if (req.files.banner_image) {
-            data.banner_image = `http://${HOST}:${PORT}/img/${req.files.banner_image[0].filename}`;
+        // Update banner image if image already exists in database
+        if (req.files.banner_image[0] && oldData.banner_image != null) {
+            const oldImage = oldData.banner_image;
+            const oldImageId = oldImage.split("=")[1];
+            const updateResult = await googleDrive.updateImage(req.files.banner_image[0], oldImageId)
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.banner_image = parentPath.concat(updateResult.id)
+
+            // Upload banner image if image doesn't exists in database
+        } else if (req.files.banner_image[0] && oldData.banner_image == null) {
+            const uploadResult = await googleDrive.uploadImage(req.files.banner_image[0])
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.banner_image = parentPath.concat(uploadResult.id)
+
+            // Use old banner image if user doesn't upload image
         } else {
-            data.banner_image = oldData.banner_image;
+            data.image = oldData.banner_image;
         }
 
         const result2 = await recruiterModel.updateRecruiter(data);
@@ -199,8 +220,20 @@ const updateRecruiter = async (req, res) => {
 const deleteRecruiter = async (req, res) => {
     try {
         const id = req.params.id_recruiter;
-        const { rowCount } = await recruiterModel.selectRecruiter(id);
-        if (!rowCount) return commonHelper.response(res, null, 404, "Recruiter not found");
+        const oldResult = await recruiterModel.selectRecruiter(id);
+        if (!oldResult.rowCount) return commonHelper.response(res, null, 404, "Recruiter not found");
+
+        const oldPhoto = oldResult.rows[0].image;
+        if(oldResult.rows[0].image != null){
+            const oldPhotoId = oldPhoto.split("=")[1];
+            await googleDrive.deleteImage(oldPhotoId);
+        }
+
+        const oldBannerImage = oldResult.rows[0].banner_image;
+        if(oldResult.rows[0].image != null){
+            const oldPhotoId = oldBannerImage.split("=")[1];
+            await googleDrive.deleteImage(oldPhotoId);
+        }
 
         const result = recruiterModel.deleteRecruiter(id);
         commonHelper.response(res, result.rows, 200, "Recruiter deleted");

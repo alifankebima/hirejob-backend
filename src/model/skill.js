@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 const selectAllSkills = () => {
-    return pool.query(`SELECT * FROM worker_skills 
+    return pool.query(`SELECT worker_skills.*, skills.name FROM worker_skills 
         INNER JOIN skills ON skills.id = worker_skills.id_skill`);
 }
 

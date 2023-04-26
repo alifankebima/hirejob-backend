@@ -30,8 +30,8 @@ const updateHireReadStatus = (data) => {
 }
 
 const updateHire = (data) => {
-    const { id, id_worker, id_recruiter, reason, name, email, phone_number,
-        description, read_status, created_at, updated_at } = data;
+    const { id, reason, name, email, phone_number,
+        description, read_status, updated_at } = data;
     return pool.query(`UPDATE hire SET reason='${reason}', name='${name}', 
         email='${email}', phone_number='${phone_number}', 
         description='${description}', read_status='${read_status}',

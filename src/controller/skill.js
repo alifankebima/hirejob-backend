@@ -96,7 +96,7 @@ const createSkill = async (req, res) => {
                 id: id1,
                 name: data.name
             }
-            const newSkillResult = await skillModel.insertSkill(newSkill);
+            await skillModel.insertSkill(newSkill);
 
             const insertSkill = {
                 id: id2,

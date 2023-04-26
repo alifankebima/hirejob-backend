@@ -1,13 +1,12 @@
 const { v4: uuidv4 } = require('uuid');
 const commonHelper = require('../helper/common');
-
+const googleDrive = require('../config/googleDrive');
 const workExperienceModel = require("../model/workExperience");
-const workerModel = require("../model/worker");
 
 const getAllWorkExperiences = async (req, res) => {
     try {
         //Get all work experiences from database
-        const results = await workExperienceModel.selectWorkExperience();
+        const results = await workExperienceModel.selectAllWorkExperiences();
 
         //Return not found if there's no work experiences in database
         if (!results.rowCount) return commonHelper
@@ -74,9 +73,9 @@ const createWorkExperience = async (req, res) => {
         data.id = uuidv4();
         data.id_worker = id_worker;
         if (req.file) {
-            const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
-            const PORT = process.env.PORT || 4000;
-            data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+            const uploadResult = await googleDrive.uploadImage(req.file)
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.image = parentPath.concat(uploadResult.id)
         }
 
         //Insert work experience to database
@@ -103,15 +102,26 @@ const updateWorkExperience = async (req, res) => {
         if (!oldDataResult.rowCount) return commonHelper
             .response(res, null, 404, "Work experience not found");
         let oldData = oldDataResult.rows[0];
-        data = { ...oldData, ...newData }
+        let data = { ...oldData, ...newData }
 
         //Work experience metadata
         data.id = id;
         data.id_worker = id_worker;
-        if (req.file) {
-            const HOST = process.env.RAILWAY_STATIC_URL || 'localhost';
-            const PORT = process.env.PORT || 4000;
-            data.image = `http://${HOST}:${PORT}/img/${req.file.filename}`;
+        // Update image if image already exists in database
+        if (req.file && oldData.image != "") {
+            const oldImage = oldData.image;
+            const oldImageId = oldImage.split("=")[1];
+            const updateResult = await googleDrive.updateImage(req.file, oldImageId)
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.image = parentPath.concat(updateResult.id)
+
+            // Upload image if image doesn't exists in database
+        } else if (req.file && oldData.image == "") {
+            const uploadResult = await googleDrive.uploadImage(req.file)
+            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
+            data.image = parentPath.concat(uploadResult.id)
+
+            // Use old image if user doesn't upload image
         } else {
             data.image = oldData.image;
         }
