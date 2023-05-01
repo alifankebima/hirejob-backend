@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "04b3bd72-0f5c-4d3c-94bc-16a1fb30ad16",
 		"name": "Hirejob",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26309865"
 	},
 	"item": [
 		{
@@ -18,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Alif Anke Bima Putra\",\n    \"email\" : \"alif.worker@gmail.com\",\n    \"phone_number\" : \"085718516646\",\n    \"password\" : \"password123\"\n}",
+									"raw": "{\n    \"name\": \"Budi Santoso\",\n    \"email\" : \"budi@gmail.com\",\n    \"phone_number\" : \"081212345678\",\n    \"password\" : \"password123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -46,7 +47,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\" : \"alif.worker@gmail.com\",\n    \"password\" : \"password123\"\n}",
+									"raw": "{\n    \"email\" : \"iqbal.worker@gmail.com\",\n    \"password\" : \"\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -74,7 +75,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlhMTY3NmZjLWU1NzEtNDdmNS05OWRkLWJjNDg2NGQyZjFhMSIsImVtYWlsIjoiYWxpZi53b3JrZXJAZ21haWwuY29tIiwicm9sZSI6IndvcmtlciIsImlhdCI6MTY3ODMxMTAzNiwiZXhwIjoxNjc4Mzk3NDM2fQ.ydQJSPhfI320sIUpD1axKLzuY7-gcCVzge5TD3yGobs\"\n}",
+									"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzNzgwYjUzLWI4YmMtNGUwMC04NWJjLWI2YWM4MmIzODkyMiIsImVtYWlsIjoiaWxoYW0ud29ya2VyQGdtYWlsLmNvbSIsInJvbGUiOiJ3b3JrZXIiLCJpYXQiOjE2ODI0NzU1NTQsImV4cCI6MTY4MjU2MTk1NH0.pWf2ZwjlRhOZDk2wCqrjYmmk-j7DD4kDTYuv-NaWiNw\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -164,7 +165,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\" : \"JavaScript\"\n}",
+									"raw": "{\n    \"name\" : \".NET\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -275,12 +276,7 @@
 									"formdata": [
 										{
 											"key": "name",
-											"value": "yt",
-											"type": "default"
-										},
-										{
-											"key": "repo_link",
-											"value": "youtube.com",
+											"value": "Mama Recipe",
 											"type": "default"
 										},
 										{
@@ -291,14 +287,14 @@
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/home/alif/Dropbox/Pictures/Profile picture/325298687_628390289046640_906610024568446155_n.jpg"
+											"src": "/home/alif/Unduhan/profile/iqbal/Screenshot 2023-04-30 at 14-06-08 Food Recipe's.png"
+										},
+										{
+											"key": "repo_link",
+											"value": "https://github.com/preedok/izipizy-FE",
+											"type": "text"
 										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									]
 								},
 								"url": {
 									"raw": "{{API_URL}}/v1/portfolio",
@@ -339,14 +335,9 @@
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/home/alif/Unduhan/procreator-ux-design-studio-VzJjPuk53sk-unsplash(1).jpg"
+											"src": "/home/alif/Unduhan/product/hoodie.jpg"
 										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									]
 								},
 								"url": {
 									"raw": "{{API_URL}}/v1/portfolio/{{id_portfolio}}",
@@ -450,7 +441,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"jobdesk\": \"Backend engineer\",\n    \"company_name\": \"PT Maju Mundur\",\n    \"date_start\": \"Juni 2023\",\n    \"date_end\": \"\",\n    \"description\": \"ini deskripsi\"\n}",
+									"raw": "{\n    \"jobdesk\": \"Fullstack Developer\",\n    \"company_name\": \"PT Iqbal Aprido\",\n    \"date_start\": \"Juni 2023\",\n    \"date_end\": \"April 2027\",\n    \"description\": \"\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -477,7 +468,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"jobdesk\": \"frontend dev baru\",\n    \"company_name\": \"PT Maju Mundur\",\n    \"date_start\": \"Juni 2023\",\n    \"date_end\": \"Juli 2023\",\n    \"description\": \"ini deskripsi\"\n}",
+									"raw": "{\n    \"jobdesk\": \"Backend Engineer\",\n    \"company_name\": \"PT Startup\",\n    \"date_start\": \"Mei 2023\",\n    \"date_end\": \"Agustus 2024\",\n    \"description\": \"ini deskripsi\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -549,7 +540,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"read_status\": false\n}",
+									"raw": "{\n    \"read_status\": true\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -598,9 +589,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_URL}}/v1/worker?search=alif&filter=name&sortBy=name&sort=asc&page=1&limit=6",
+							"raw": "{{localhost}}/v1/worker",
 							"host": [
-								"{{API_URL}}"
+								"{{localhost}}"
 							],
 							"path": [
 								"v1",
@@ -609,27 +600,33 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "alif"
+									"value": "",
+									"disabled": true
 								},
 								{
 									"key": "filter",
-									"value": "name"
+									"value": "name",
+									"disabled": true
 								},
 								{
 									"key": "sortBy",
-									"value": "name"
+									"value": "name",
+									"disabled": true
 								},
 								{
 									"key": "sort",
-									"value": "asc"
+									"value": "asc",
+									"disabled": true
 								},
 								{
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "limit",
-									"value": "6"
+									"value": "6",
+									"disabled": true
 								}
 							]
 						}
@@ -666,79 +663,85 @@
 								{
 									"key": "name",
 									"value": "Alif Anke Bima Putra",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "email",
 									"value": "alif.worker@gmail.com",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "phone_number",
 									"value": "085718516646",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "password",
 									"value": "password123",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "jobdesk",
-									"value": "Backend engineer",
-									"type": "default"
+									"value": "Fullstack Web Developer",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "residence",
-									"value": "Jakarta",
-									"type": "default"
+									"value": "Bandung",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "workplace",
-									"value": "Tambun",
-									"type": "default"
+									"value": "Bandung",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "description",
-									"value": "Ini adalah deskripsi",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "job_type",
 									"value": "Full-time",
-									"type": "default"
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "instagram",
-									"value": "alifankebima",
-									"type": "default"
+									"value": "iqbalapredo",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "github",
-									"value": "alifankebima",
-									"type": "default"
+									"value": "iqbalapredo",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "gitlab",
-									"value": "tidak ada",
-									"type": "default"
+									"value": "iqbalapredo",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/home/alif/Dropbox/Pictures/Pokemon/squirtleglasses.jpg"
+									"src": "/home/alif/Unduhan/profile/iqbal.jpeg"
 								}
-							],
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							]
 						},
 						"url": {
-							"raw": "{{API_URL}}/v1/worker/{{id_worker}}",
+							"raw": "{{localhost}}/v1/worker/{{id_worker}}",
 							"host": [
-								"{{API_URL}}"
+								"{{localhost}}"
 							],
 							"path": [
 								"v1",
@@ -813,7 +816,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Alif Anke Bima Putra\",\n    \"email\" : \"alif.recruiter@gmail.com\",\n    \"company_name\" : \"PT Maju Mundur\",\n    \"jobdesk\" : \"HRD\",\n    \"phone_number\" : \"085718516646\",\n    \"password\" : \"password123\"\n}",
+									"raw": "{\n    \"name\": \"Ikhlasul Kamal\",\n    \"email\" : \"kamal.recruiter@gmail.com\",\n    \"company_name\" : \"PT Maju Mundur\",\n    \"jobdesk\" : \"HRD\",\n    \"phone_number\" : \"085718516646\",\n    \"password\" : \"password123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -841,7 +844,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\" : \"alif.recruiter@gmail.com\",\n    \"password\" : \"password123\"\n}",
+									"raw": "{\n    \"email\" : \"kamal.recruiter@gmail.com\",\n    \"password\" : \"password123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -869,7 +872,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQyMGFmMDUxLTU3ZjEtNDA2ZC1hMGYyLWU4ZmM2MmQ1ZDczMCIsImVtYWlsIjoiYWxpZi5yZWNydWl0ZXJAZ21haWwuY29tIiwicm9sZSI6InJlY3J1aXRlciIsImlhdCI6MTY3ODMyMDcyNiwiZXhwIjoxNjc4NDA3MTI2fQ.ZFhJnGtLjLXsGenZIDj2KgNYScI4zuHAYVqIdMmI-18\"\n}",
+									"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU4MzhhMWM3LTU3NWUtNGIyMy1hYTQ0LTA4MzJiZjk4YTkwOCIsImVtYWlsIjoia2FtYWwucmVjcnVpdGVyQGdtYWlsLmNvbSIsInJvbGUiOiJyZWNydWl0ZXIiLCJpYXQiOjE2ODI1MDE0NDksImV4cCI6MTY4MjU4Nzg0OSwiaXNzIjoiaGlyZWpvYiJ9.K8OVvcUVNzk63zLkgTejHIfWKucNS_51iQHAwUlG7Tg\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -939,7 +942,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"reason\": \"Full-time\",\n    \"name\": \"Alif recruiter\",\n    \"email\": \"alif.recruiter@gmail.com\",\n    \"phone_number\": \"085718516646\",\n    \"description\": \"ini adalah deskripsi\"\n}",
+									"raw": "{\n    \"reason\": \"Full-time\",\n    \"name\": \"Alif recruiter\",\n    \"email\": \"alif.recruiter@gmail.com\",\n    \"phone_number\": \"085718516646\",\n    \"description\": \"saya ingin merekrut anda\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1069,7 +1072,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": []
+									"src": "/home/alif/Unduhan/profile/social-media-app-2.png"
 								},
 								{
 									"key": "company_field",
@@ -1099,14 +1102,9 @@
 								{
 									"key": "banner_image",
 									"type": "file",
-									"src": []
+									"src": "/home/alif/Unduhan/product/baju-muslim-pria-1.png"
 								}
-							],
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{API_URL}}/v1/recruiter/{{id_recruiter}}",
@@ -1197,7 +1195,7 @@
 	"variable": [
 		{
 			"key": "API_URL",
-			"value": "http://localhost:4000"
+			"value": "https://hirejob-backend-production-c841.up.railway.app"
 		},
 		{
 			"key": "worker_token",
@@ -1205,11 +1203,11 @@
 		},
 		{
 			"key": "id_worker",
-			"value": "37634fa0-aee1-4d9d-ad9d-0628492393b6"
+			"value": "c2d77d86-fa84-4ec5-98ab-0a477cfa90dd"
 		},
 		{
 			"key": "id_worker_skill",
-			"value": "a27fbc48-5e46-4e9e-96b6-60ebc41da0a9\""
+			"value": "26e78950-bfd5-4e62-8a6e-875c807d4738"
 		},
 		{
 			"key": "id_portfolio",
@@ -1230,6 +1228,11 @@
 		{
 			"key": "id_hire",
 			"value": "8c3c70e2-f5fb-418f-868e-f91202e0556b"
+		},
+		{
+			"key": "localhost",
+			"value": "http://localhost:4000",
+			"type": "string"
 		}
 	]
 }

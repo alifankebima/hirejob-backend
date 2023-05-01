@@ -1,8 +1,10 @@
 const pool = require('../config/db');
 
 const selectAllWorkers = (filter, searchQuery, sortBy, sort, limit, offset) => {
-    return pool.query(`SELECT * FROM workers
-        WHERE ${filter} ILIKE '%${searchQuery}%' 
+    return pool.query(`SELECT workers.*, json_agg(skills.name) AS skills FROM workers 
+        LEFT JOIN worker_skills ON workers.id = worker_skills.id_worker 
+        LEFT JOIN skills ON skills.id = worker_skills.id_skill 
+        WHERE workers.${filter} ILIKE '%${searchQuery}%' GROUP BY workers.id
         ORDER BY ${sortBy} ${sort} LIMIT ${limit} OFFSET ${offset}`);
 }
 

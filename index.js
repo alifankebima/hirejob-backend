@@ -32,9 +32,9 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {  // eslint-disable-line
     const messageError = err.message || "Internal server error";
     const statusCode = err.status || 500;
-    
+
     //Fix multer file too large message to a proper one
-    if(messageError == "File too large"){
+    if (messageError == "File too large") {
         commonHelper.response(res, null, 413, "File too large (Max. 2MB)");
     } else {
         commonHelper.response(res, null, statusCode, messageError);
@@ -43,5 +43,6 @@ app.use((err, req, res, next) => {  // eslint-disable-line
 
 // Listening port awaiting requests
 app.listen(port, () => {
-    console.log(`Server run on port: ${port}`);
+    console.log(`Server URL: ${process.env.RAILWAY_STATIC_URL || 'http://localhost:' + port}`)
+    console.log(`Server internal port: ${port}`);
 });
