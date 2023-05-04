@@ -48,6 +48,7 @@ const loginRecruiter = async (req, res) => {
             email: recruiter.email,
             role: "recruiter"
         };
+        recruiter.role = "recruiter"
         recruiter.token = authHelper.generateToken(payload);
         recruiter.refreshToken = authHelper.generateRefreshToken(payload);
 
@@ -58,6 +59,18 @@ const loginRecruiter = async (req, res) => {
         commonHelper.response(res, null, 500, "Failed login as recruiter");
         console.log(error);
     }
+}
+
+const getProfile = async (req, res) => {
+    const id = req.payload.id;
+
+    const result = await recruiterModel.selectRecruiter(id);
+    if(!result.rowCount) return commonHelper
+        .response(res, null, 404, "Recruiter not found");
+
+    result.rows[0].role = "recruiter";
+    delete result.rows[0].password;
+    commonHelper.response(res, result.rows, 200, "Get recruiter profile successful")
 }
 
 const refreshToken = async (req, res) => {
@@ -246,6 +259,7 @@ const deleteRecruiter = async (req, res) => {
 module.exports = {
     registerRecruiter,
     loginRecruiter,
+    getProfile,
     refreshToken,
     getAllRecruiters,
     getDetailRecruiter,

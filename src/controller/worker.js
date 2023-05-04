@@ -8,6 +8,7 @@ const workerModel = require("../model/worker");
 const skillModel = require("../model/skill");
 const portfolioModel = require("../model/portfolio");
 const workExperienceModel = require("../model/workExperience");
+const hireModel = require("../model/hire")
 
 const registerWorker = async (req, res) => {
     try {
@@ -51,6 +52,9 @@ const loginWorker = async (req, res) => {
             email: worker.email,
             role: "worker"
         };
+        const hires = await hireModel.selectWorkerHires(worker.id);
+        worker.hireCount = hires.rowCount;
+        worker.role = "worker";
         worker.token = authHelper.generateToken(payload);
         worker.refreshToken = authHelper.generateRefreshToken(payload);
 
@@ -96,6 +100,20 @@ const refreshToken = async (req, res) => {
             return commonHelper.response(res, null, 401, "Token not active");
         }
     }
+}
+
+const getProfile = async (req, res) => {
+    const id = req.payload.id;
+
+    const result = await workerModel.selectWorker(id);
+    if(!result.rowCount) return commonHelper
+        .response(res, null, 404, "Worker not found");
+
+    const hires = await hireModel.selectWorkerHires(id);
+    result.rows[0].hireCount = hires.rowCount;
+    result.rows[0].role = "worker";
+    delete result.rows[0].password;
+    commonHelper.response(res, result.rows, 200, "Get worker profile successful")
 }
 
 const getAllWorkers = async (req, res) => {
@@ -237,6 +255,7 @@ const deleteWorker = async (req, res) => {
 module.exports = {
     registerWorker,
     loginWorker,
+    getProfile,
     refreshToken,
     getAllWorkers,
     getDetailWorker,

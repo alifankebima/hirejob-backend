@@ -16,7 +16,8 @@ const {
     loginWorker,
     refreshToken,
     updateWorker,
-    deleteWorker
+    deleteWorker,
+    getProfile
 } = require("../controller/worker");
 
 //Worker authentication routes
@@ -26,6 +27,7 @@ router.post("/refresh-token", refreshToken);
 
 //Worker routes
 router.get('/', getAllWorkers);
+router.get('/profile', protect, getProfile);
 router.get('/:id_worker', getDetailWorker);
 router.put("/:id_worker", protect, isWorker, isIdValid, upload.single("image"), updateWorker);
 router.delete("/:id_worker", protect, isWorker, isIdValid, deleteWorker);

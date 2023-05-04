@@ -13,6 +13,7 @@ const {
     updateRecruiter,
     deleteRecruiter
 } = require("../controller/recruiter");
+const { getRecruiterHires } = require("../controller/hire");
 
 //Recruiter authentication routes
 router.post("/register", registerRecruiter);
@@ -22,6 +23,7 @@ router.post("/refresh-token", refreshToken);
 //Recruiter routes
 router.get('/', getAllRecruiters);
 router.get('/:id_recruiter', getDetailRecruiter);
+router.get('/:id_recruiter/hire', getRecruiterHires);
 router.put("/:id_recruiter", protect, isIdValid, upload.fields([
     { name: "image", maxCount: 1 },
     { name: "banner_image", maxCount: 1 }

@@ -26,7 +26,6 @@ const getWorkerHires = async (req, res) => {
     try {
         //Get request worker id
         const id_worker = req.params.id_worker;
-        console.log(id_worker);
 
         //Get worker hires from database
         const results = await hireModel.selectWorkerHires(id_worker);
@@ -34,6 +33,27 @@ const getWorkerHires = async (req, res) => {
         //Return not found if there's no hires in database
         if (!results.rowCount) return commonHelper
             .response(res, null, 404, "Worker hires not found");
+
+        //Response
+        commonHelper.response(res, results.rows, 200,
+            "Get all hires successful");
+    } catch (error) {
+        console.log(error);
+        commonHelper.response(res, null, 500, "Failed getting hires");
+    }
+}
+
+const getRecruiterHires = async (req, res) => {
+    try {
+        //Get request worker id
+        const id_recruiter = req.params.id_recruiter;
+
+        //Get worker hires from database
+        const results = await hireModel.selectRecruiterHires(id_recruiter)
+
+        //Return not found if there's no hires in database
+        if (!results.rowCount) return commonHelper
+            .response(res, null, 404, "Recruiter hires not found");
 
         //Response
         commonHelper.response(res, results.rows, 200,
@@ -124,7 +144,7 @@ const updateHireReadStatus = async (req, res) => {
         //Get request hire id and hire data
         const id = req.params.id;
         const data = req.body;
-        console.log("hello");
+
         //Hire metadata
         data.id = id;
 
@@ -156,6 +176,7 @@ const deleteHire = async (req, res) => {
 module.exports = {
     getAllHires,
     getWorkerHires,
+    getRecruiterHires,
     getDetailHire,
     createHire,
     updateHire,

@@ -10,6 +10,12 @@ const selectWorkerHires = (id_worker) => {
             (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
+const selectRecruiterHires = (id_recruiter) => {
+    return new Promise((resolve, reject) =>
+        pool.query(`SELECT workers.name as worker_name, workers.email as worker_email, hire.* FROM hire inner join workers on hire.id_worker = workers.id WHERE hire.id_recruiter='${id_recruiter}'`,
+            (error, result) => (!error) ? resolve(result) : reject(error)));
+}
+
 const selectHire = (id) => {
     return new Promise((resolve, reject) =>
         pool.query(`SELECT * FROM hire WHERE id='${id}'`,
@@ -51,6 +57,7 @@ const countData = () => {
 module.exports = {
     selectAllHires,
     selectWorkerHires,
+    selectRecruiterHires,
     selectHire,
     insertHire,
     updateHireReadStatus,
