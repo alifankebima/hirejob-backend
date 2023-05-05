@@ -186,7 +186,7 @@ const updateRecruiter = async (req, res) => {
         }
 
         // Update image if image already exists in database
-        if (req.files.image == undefined && oldData.image != null) {
+        if (req.files.image != undefined && oldData.image != null) {
             const oldImage = oldData.image;
             const oldImageId = oldImage.split("=")[1];
             const updateResult = await googleDrive.updateImage(req.files.image[0], oldImageId)
