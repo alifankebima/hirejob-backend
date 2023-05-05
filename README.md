@@ -7,7 +7,7 @@
   <p align="center">
     <a href="https://github.com/alifankebima/hirejob-backend"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://hirejob-frontend.vercel.app">View Demo</a>
+    <a href="https://hirejob-frontend-alifankebima.vercel.app">View Demo</a>
     ·
     <a href="https://hirejob-backend-production-c841.up.railway.app">Api Demo</a>
   </p>
@@ -15,11 +15,10 @@
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [About The Project](#about-the-project)
   - [Built With](#built-with)
 - [Getting Started](#getting-started)
-  - [Prerequisite](#prerequisites)
+  - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Documentation](#documentation)
 - [Related Project](#related-project)
@@ -114,4 +113,4 @@ API endpoint list are also available as published postman documentation
 
 :rocket: [`Backend Hirejob`](https://github.com/alifankebima/hirejob-backend)
 
-:rocket: [`Demo Hirejob`](https://hirejob-frontend.vercel.app)
+:rocket: [`Demo Hirejob`](https://hirejob-frontend-alifankebima.vercel.app)

@@ -21,6 +21,8 @@ const updateRecruiter = (data) => {
     const { id, name, email, company_name, jobdesk, phone_number, password, image,
         company_field, workplace, description, instagram, linkedin, 
         banner_image } = data;
+        console.log(data.image)
+        console.log(id)
     return pool.query(`UPDATE recruiters SET name='${name}', email='${email}', 
         company_name='${company_name}', jobdesk='${jobdesk}', 
         phone_number='${phone_number}', password='${password}', image='${image}', 

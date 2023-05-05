@@ -153,7 +153,7 @@ const getDetailWorker = async (req, res) => {
     try {
         //Get request worker id
         const id = req.params.id_worker;
-
+        console.log("test")
         //Get worker by id from database
         const result = await workerModel.selectWorker(id);
 

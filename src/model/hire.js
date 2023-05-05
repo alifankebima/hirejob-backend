@@ -6,7 +6,7 @@ const selectAllHires = () => {
 
 const selectWorkerHires = (id_worker) => {
     return new Promise((resolve, reject) =>
-        pool.query(`SELECT * FROM hire WHERE id_worker='${id_worker}'`,
+        pool.query(`SELECT recruiters.image as recruiter_image, hire.* from recruiters inner join hire on recruiters.id = hire.id_recruiter WHERE hire.id_worker='${id_worker}'`,
             (error, result) => (!error) ? resolve(result) : reject(error)));
 }
 
