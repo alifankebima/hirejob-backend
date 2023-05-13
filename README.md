@@ -25,7 +25,7 @@
 
 # About The Project
 
-Hirejob is a hiring website to make it easier to connect workers with recruiters. Workers can create account and display portfolios, work experiences, and skills on this website. Recruiters can create account for searching and hire workers based on company needs. Workers will be notified if they are hired by recruiter.
+Hirejob is a hiring website to make it easier to connect workers with recruiters. Workers can create an account and display portfolios, work experiences, and skills on this website. Recruiters can create an account for searching and hiring workers based on company needs. Workers will be notified if they are hired by recruiter.
 
 ## Built With
 
