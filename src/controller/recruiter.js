@@ -190,14 +190,16 @@ const updateRecruiter = async (req, res) => {
             const oldImage = oldData.image;
             const oldImageId = oldImage.split("=")[1];
             const updateResult = await googleDrive.updateImage(req.files.image[0], oldImageId)
-            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
-            data.image = parentPath.concat(updateResult.id)
+            const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
+            const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
+            data.image = parentPathPrefix + uploadResult.id + parentPathPostfix
 
             // Upload image if image doesn't exists in database
         } else if (req.files.image != undefined && oldData.image == null) {
             const uploadResult = await googleDrive.uploadImage(req.files.image[0])
-            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
-            image = parentPath.concat(uploadResult.id)
+            const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
+            const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
+            image = parentPathPrefix + uploadResult.id + parentPathPostfix
             
             // Use old image if user doesn't upload image
         } else {
@@ -209,14 +211,16 @@ const updateRecruiter = async (req, res) => {
             const oldImage = oldData.banner_image;
             const oldImageId = oldImage.split("=")[1];
             const updateResult = await googleDrive.updateImage(req.files.banner_image[0], oldImageId)
-            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
-            data.banner_image = parentPath.concat(updateResult.id)
+            const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
+            const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
+            data.banner_image = parentPathPrefix + uploadResult.id + parentPathPostfix
 
             // Upload banner image if image doesn't exists in database
         } else if (req.files.banner_image != undefined && oldData.banner_image == null) {
             const uploadResult = await googleDrive.uploadImage(req.files.banner_image[0])
-            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
-            data.banner_image = parentPath.concat(uploadResult.id)
+            const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
+            const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
+            data.banner_image = parentPathPrefix + uploadResult.id + parentPathPostfix
 
             // Use old banner image if user doesn't upload image
         } else {

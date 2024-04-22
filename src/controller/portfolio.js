@@ -78,8 +78,9 @@ const createPortfolio = async (req, res) => {
         data.id_worker = id_worker;
         if (req.file) {
             const uploadResult = await googleDrive.uploadImage(req.file)
-            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
-            data.image = parentPath.concat(uploadResult.id)
+            const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
+            const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
+            data.image = parentPathPrefix + uploadResult.id + parentPathPostfix
         }
 
         //Insert portfolio to database
@@ -116,14 +117,16 @@ const updatePortfolio = async (req, res) => {
             const oldImage = oldData.image;
             const oldImageId = oldImage.split("=")[1];
             const updateResult = await googleDrive.updateImage(req.file, oldImageId)
-            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
-            data.image = parentPath.concat(updateResult.id)
+            const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
+            const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
+            data.image = parentPathPrefix + uploadResult.id + parentPathPostfix
 
             // Upload image if image doesn't exists in database
         } else if (req.file && oldData.image == "") {
             const uploadResult = await googleDrive.uploadImage(req.file)
-            const parentPath = process.env.GOOGLE_DRIVE_PHOTO_PATH;
-            data.image = parentPath.concat(uploadResult.id)
+            const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
+            const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
+            data.image = parentPathPrefix + uploadResult.id + parentPathPostfix
 
             // Use old image if user doesn't upload image
         } else {
