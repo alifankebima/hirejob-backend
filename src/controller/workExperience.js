@@ -115,7 +115,7 @@ const updateWorkExperience = async (req, res) => {
             const updateResult = await googleDrive.updateImage(req.file, oldImageId)
             const parentPathprefix = process.env.GOOGLE_DRIVE_PHOTO_PATH_PREFIX;
             const parentPathPostfix = process.env.GOOGLE_DRIVE_PHOTO_PATH_POSTFIX;
-            data.image = parentPathPrefix + uploadResult.id + parentPathPostfix
+            data.image = parentPathPrefix + updateResult.id + parentPathPostfix
 
             // Upload image if image doesn't exists in database
         } else if (req.file && oldData.image == "") {
